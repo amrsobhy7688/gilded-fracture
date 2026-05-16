@@ -54,7 +54,23 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
   gap:2px; background:var(--ink-mid);
 }
 .stack-cell { overflow:hidden; position:relative }
-.stack-cell .panel-img { object-fit:cover; object-position:center }
+.stack-cell .panel-img { object-fit:cover; object-position:center; width:100%; height:100% }
+
+/* LAYOUT-WIDE-TOP-TWO-BOTTOM: top spanning panel + two bottom cells */
+.panel-wide-top-two {
+  position:absolute; inset:0; z-index:0;
+  display:grid;
+  grid-template-rows:54% 46%;
+  grid-template-columns:1fr 1fr;
+  gap:2px; background:var(--ink-mid);
+}
+.wide-top-cell {
+  grid-column:1 / 3;
+  overflow:hidden; position:relative;
+}
+.wide-bot-cell { overflow:hidden; position:relative }
+.wide-top-cell .panel-img,
+.wide-bot-cell .panel-img { object-fit:cover; object-position:center; width:100%; height:100% }
 
 /* ── VIGNETTE ────────────────────────────────────────────────── */
 .screen:not(.is-interlude)::after {
@@ -74,9 +90,10 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 
 /* ── NARRATION CARD — dark images (default) ──────────────────── */
 .narration-card {
-  left:max(7vw,20px); right:max(7vw,20px);
-  bottom:clamp(88px,13vh,136px);
-  padding:20px 24px 22px;
+  left:max(6vw,16px); right:max(6vw,16px);
+  bottom:clamp(72px,10vh,100px);
+  padding:10px 14px 12px;
+  max-height:28vh; overflow:hidden;
   background:
     linear-gradient(135deg, rgba(200,168,78,0.07), rgba(6,9,15,0.68)),
     rgba(6,9,15,0.26);
@@ -84,13 +101,13 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   box-shadow:0 0 30px rgba(6,9,15,0.5), inset 0 0 20px rgba(200,168,78,0.04);
-  clip-path:polygon(12px 0%,calc(100% - 12px) 0%,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0% calc(100% - 12px),0% 12px);
+  clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0% calc(100% - 10px),0% 10px);
   color:var(--parchment);
-  font-size:clamp(15px,2.1vw,21px);
-  line-height:1.54; text-align:center;
+  font-size:clamp(13px,1.8vw,17px);
+  line-height:1.48; text-align:center;
   text-shadow:0 1px 10px rgba(0,0,0,0.7);
 }
-.narration-card p+p { margin-top:8px }
+.narration-card p+p { margin-top:5px }
 .narration-card .accent { color:var(--gold-bright) }
 
 /* NARRATION CARD — light images */
@@ -107,10 +124,10 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 }
 
 .card-crystal {
-  display:block; width:8px; height:14px; margin:0 auto 13px;
+  display:block; width:6px; height:11px; margin:0 auto 8px;
   background:linear-gradient(180deg, #fff8e8 0%, var(--gold) 100%);
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  box-shadow:0 0 14px var(--gold-glow);
+  box-shadow:0 0 10px var(--gold-glow);
 }
 
 /* ── SUBTITLE STRIP ──────────────────────────────────────────── */
@@ -352,14 +369,16 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 @media(orientation:landscape)and(min-width:680px){
-  .narration-card{left:auto;right:clamp(24px,5vw,80px);bottom:clamp(76px,11vh,116px);width:min(42vw,440px);text-align:left}
+  .narration-card{left:auto;right:clamp(24px,5vw,80px);bottom:clamp(60px,9vh,90px);width:min(42vw,400px);text-align:left}
   .subtitle-strip{left:30%;right:30%}
-  .evidence-overlay{right:clamp(24px,5vw,80px);bottom:clamp(76px,11vh,116px)}
+  .evidence-overlay{right:clamp(24px,5vw,80px);bottom:clamp(60px,9vh,90px)}
   .panel-stack-two{grid-template-rows:1fr;grid-template-columns:1fr 1fr}
+  .panel-wide-top-two{grid-template-rows:1fr;grid-template-columns:2fr 1fr 1fr}
+  .wide-top-cell{grid-column:auto}
 }
 @media(max-width:390px){
   .ep-title{font-size:clamp(16px,5.2vw,22px)}
-  .narration-card{font-size:clamp(14px,4.4vw,18px);padding:14px 16px 16px}
+  .narration-card{font-size:clamp(12px,3.8vw,15px);padding:8px 12px 10px}
   .bottom-bar{grid-template-columns:64px 1fr 64px}
 }
     </style>
@@ -434,65 +453,72 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
           </div>
         </div>
 
-        <!-- S004 · Full · Evidence — Felda's Note -->
+        <!-- S004 · Wide-Top-Two · The Seal Says Holy -->
         <div class="screen" data-index="3">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="evidence-overlay text-layer">
-            <div class="evidence-card">
-              <span class="ev-kicker">Clue Acquired</span>
-              <strong class="ev-title">Felda's Note</strong>
-              <p>The clerk is asking about the <em>forty-sixth line</em> again.</p>
-              <p>It has been handled.</p>
-              <p class="ev-warning">Do not involve anyone else.</p>
-              <span class="ev-seal">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1"/>
-                  <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="0.6"/>
-                  <line x1="20" y1="4"  x2="20" y2="36" stroke="currentColor" stroke-width="0.6"/>
-                  <line x1="4"  y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="0.6"/>
-                  <line x1="8"  y1="8"  x2="32" y2="32" stroke="currentColor" stroke-width="0.4"/>
-                  <line x1="32" y1="8"  x2="8"  y2="32" stroke="currentColor" stroke-width="0.4"/>
-                </svg>
-              </span>
+          <div class="panel-wide-top-two">
+            <div class="wide-top-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" crossorigin="anonymous" />
             </div>
+            <div class="wide-bot-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+            <div class="wide-bot-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>This crystal is sanctified. This shipment is legitimate.</p>
+            <p class="accent">This light is holy.</p>
           </div>
         </div>
 
-        <!-- S005 · Full · Dialogue -->
+        <!-- S005 · Full · The Celestial Ledger -->
         <div class="screen" data-index="4">
           <div class="panel-full">
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="subtitle-strip text-layer">
-            <p>"You said three days."</p>
-          </div>
-        </div>
-
-        <!-- S006 · Interlude · Faith and Receipts -->
-        <div class="screen is-interlude" data-index="5">
-          <div class="interlude-bg"></div>
-          <div class="interlude-body">
-            <span class="interlude-crystal"></span>
-            <div class="interlude-divider"></div>
-            <p class="interlude-text">The Empire does not<br/>run on faith alone.</p>
-            <div class="interlude-divider"></div>
-            <p class="interlude-text accent">It runs on faith<br/>and receipts.</p>
-            <div class="interlude-divider"></div>
-            <span class="interlude-crystal"></span>
-          </div>
-        </div>
-
-        <!-- S007 · Full · The Celestial Ledger -->
-        <div class="screen" data-index="6">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
           </div>
           <div class="narration-card text-layer">
             <span class="card-crystal"></span>
             <p>Beneath the High Spire, the Office of Holy Order maintains the longest unbroken document in the known world.</p>
             <p class="accent">Six hundred and forty-three years. Every shipment. Every seal.</p>
+          </div>
+        </div>
+
+        <!-- S006 · Wide-Top-Two · Ascension Week -->
+        <div class="screen" data-index="5">
+          <div class="panel-wide-top-two">
+            <div class="wide-top-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+            <div class="wide-bot-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+            <div class="wide-bot-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>Fifteen days before Ascension Day, Cyritium is the most orderly place in the world.</p>
+            <p class="accent">Every bridge draped. Every sconce assigned. Every crystal logged.</p>
+          </div>
+        </div>
+
+        <!-- S007 · Two-Stacked · The Machine At Its Peak -->
+        <div class="screen" data-index="6">
+          <div class="panel-stack-two">
+            <div class="stack-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+            <div class="stack-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>The city is a machine running at its annual peak.</p>
+            <p class="accent">Everything is exactly where it is supposed to be.</p>
           </div>
         </div>
 
@@ -556,13 +582,8 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <button class="close-btn" id="closeDrawer" aria-label="Close">×</button>
           </div>
           <div class="drawer-items">
-            <button class="drawer-card" data-jump="3">
-              <span class="dc-code">P00-E01-S004</span>
-              <strong class="dc-name">Felda's Note</strong>
-              <span class="dc-desc">The forty-sixth line has been handled.</span>
-            </button>
-            <button class="drawer-card" data-jump="6">
-              <span class="dc-code">P00-E01-S007</span>
+            <button class="drawer-card" data-jump="4">
+              <span class="dc-code">P00-E01-S005</span>
               <strong class="dc-name">The Celestial Ledger</strong>
               <span class="dc-desc">Six hundred and forty-three years without a break.</span>
             </button>
@@ -595,11 +616,13 @@ let touchStartX = 0, touchStartY = 0;
 let drawerOpen = false;
 
 // ── Luminance sampling ────────────────────────────────────────
-// Reads pixels from the bottom 35% of the image (where text sits).
+// For multi-panel screens, samples the last panel-img (bottom panel).
 // Falls back gracefully if canvas is cross-origin restricted.
 function sampleTone(screen) {
-  const img = screen.querySelector(".panel-img");
-  if (!img) return; // interlude — no image, CSS handles it
+  // Use last panel-img so we sample the area under the text card (bottom panel)
+  const imgs = screen.querySelectorAll(".panel-img");
+  const img = imgs[imgs.length - 1];
+  if (!img) return;
 
   function detect() {
     const W = 64, H = 32;
@@ -619,7 +642,6 @@ function sampleTone(screen) {
       screen.classList.toggle("bg-light", lum > 148);
       screen.classList.toggle("bg-dark",  lum <= 148);
     } catch (_) {
-      // CORS blocked — keep default (dark) treatment
       screen.classList.add("bg-dark");
     }
   }
