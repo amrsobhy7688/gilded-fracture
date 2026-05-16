@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "reader",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["/Users/amrsobhy7688/Documents/Gilded Fracture - Webtoon/serve.py"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["-e", "const h=require('http'),f=require('fs'),p=require('path'),u=require('url'),r='/Users/amrsobhy7688/Documents/Gilded Fracture - Webtoon';const m={'.html':'text/html','.css':'text/css','.js':'text/javascript','.png':'image/png','.jpg':'image/jpeg','.gif':'image/gif','.svg':'image/svg+xml','.ico':'image/x-icon'};h.createServer((q,s)=>{let pn=decodeURIComponent(u.parse(q.url).pathname);let fp=p.join(r,pn);if(fp===r||fp===r+'/')fp=p.join(r,'reader-mockup.html');f.readFile(fp,(e,d)=>{if(e){s.writeHead(404);s.end('Not found');}else{s.writeHead(200,{'Content-Type':m[p.extname(fp)]||'application/octet-stream'});s.end(d);}});}).listen(8765);"],
       "port": 8765
     }
   ]
