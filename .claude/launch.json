@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "reader",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/amrsobhy7688/Documents/Gilded Fracture - Webtoon/serve.py"],
+      "port": 8765
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gilded Fracture — The Ledger Does Not Lie</title>
+    <style>
+/* ── TOKENS ──────────────────────────────────────────────────── */
+:root {
+  --ink:          #06090f;
+  --ink-mid:      #0b1220;
+  --gold:         #c8a84e;
+  --gold-bright:  #dfc070;
+  --gold-dim:     rgba(200,168,78,0.36);
+  --gold-glow:    rgba(200,168,78,0.52);
+  --parchment:    #f0e6cc;
+  --parchment-mid:#c8b88a;
+  --deep-blue:    #1e3d7a;
+  --deep-blue-lt: #2a5294;
+  --muted:        rgba(220,206,170,0.58);
+  --danger:       #9c302d;
+  font-family: Georgia, "Times New Roman", serif;
+  color-scheme: dark;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html,body { width:100%; height:100%; overflow:hidden; background:var(--ink) }
+button { border:0; background:transparent; color:inherit; font:inherit; cursor:pointer }
+
+/* ── SHELL ───────────────────────────────────────────────────── */
+.reader {
+  position:relative; width:100vw; height:100vh; height:100svh;
+  overflow:hidden; background:var(--ink); isolation:isolate;
+}
+
+/* ── SCREENS ─────────────────────────────────────────────────── */
+.screen-track { position:absolute; inset:0 }
+.screen {
+  position:absolute; inset:0;
+  opacity:0; pointer-events:none;
+  transition:opacity 340ms ease;
+}
+.screen.is-active { opacity:1; pointer-events:auto }
+
+/* ── PANELS ──────────────────────────────────────────────────── */
+.panel-full { position:absolute; inset:0; z-index:0 }
+.panel-img {
+  width:100%; height:100%;
+  object-fit:cover; object-position:center top;
+  display:block;
+}
+.panel-stack-two {
+  position:absolute; inset:0; z-index:0;
+  display:grid; grid-template-rows:1fr 1fr;
+  gap:2px; background:var(--ink-mid);
+}
+.stack-cell { overflow:hidden; position:relative }
+.stack-cell .panel-img { object-fit:cover; object-position:center }
+
+/* ── VIGNETTE ────────────────────────────────────────────────── */
+.screen:not(.is-interlude)::after {
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(
+    to bottom,
+    rgba(6,9,15,0.55) 0%,
+    transparent 20%,
+    transparent 54%,
+    rgba(6,9,15,0.75) 100%
+  );
+}
+
+/* ── TEXT LAYERS ─────────────────────────────────────────────── */
+.text-layer { position:absolute; z-index:10; transition:opacity 220ms ease; }
+.is-focus .text-layer { opacity:0; pointer-events:none }
+
+/* ── NARRATION CARD — dark images (default) ──────────────────── */
+.narration-card {
+  left:max(7vw,20px); right:max(7vw,20px);
+  bottom:clamp(88px,13vh,136px);
+  padding:20px 24px 22px;
+  background:
+    linear-gradient(135deg, rgba(200,168,78,0.07), rgba(6,9,15,0.68)),
+    rgba(6,9,15,0.26);
+  border:1px solid rgba(200,168,78,0.26);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 0 30px rgba(6,9,15,0.5), inset 0 0 20px rgba(200,168,78,0.04);
+  clip-path:polygon(12px 0%,calc(100% - 12px) 0%,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0% calc(100% - 12px),0% 12px);
+  color:var(--parchment);
+  font-size:clamp(15px,2.1vw,21px);
+  line-height:1.54; text-align:center;
+  text-shadow:0 1px 10px rgba(0,0,0,0.7);
+}
+.narration-card p+p { margin-top:8px }
+.narration-card .accent { color:var(--gold-bright) }
+
+/* NARRATION CARD — light images */
+.bg-light .narration-card {
+  background:linear-gradient(135deg, rgba(248,242,228,0.9), rgba(232,220,196,0.78));
+  border-color:rgba(160,128,60,0.4);
+  box-shadow:0 8px 40px rgba(0,0,0,0.28);
+  color:#1a1c28; text-shadow:none;
+}
+.bg-light .narration-card .accent { color:var(--deep-blue) }
+.bg-light .card-crystal {
+  background:linear-gradient(180deg, var(--deep-blue-lt), var(--deep-blue));
+  box-shadow:0 0 12px rgba(30,61,122,0.5);
+}
+
+.card-crystal {
+  display:block; width:8px; height:14px; margin:0 auto 13px;
+  background:linear-gradient(180deg, #fff8e8 0%, var(--gold) 100%);
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  box-shadow:0 0 14px var(--gold-glow);
+}
+
+/* ── SUBTITLE STRIP ──────────────────────────────────────────── */
+.subtitle-strip {
+  left:max(14vw,36px); right:max(14vw,36px);
+  bottom:clamp(88px,13vh,136px);
+  padding:10px 18px 12px;
+  border-top:1px solid rgba(200,168,78,0.38);
+  border-bottom:1px solid rgba(200,168,78,0.2);
+  background:rgba(6,9,15,0.62);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  color:var(--parchment);
+  font-size:clamp(16px,2.3vw,21px);
+  text-align:center;
+  text-shadow:0 1px 8px rgba(0,0,0,0.65);
+}
+.bg-light .subtitle-strip {
+  background:rgba(238,230,210,0.82);
+  border-color:rgba(160,128,60,0.4);
+  color:#1a1c28; text-shadow:none;
+}
+
+/* ── EVIDENCE OVERLAY ────────────────────────────────────────── */
+.evidence-overlay {
+  right:max(5vw,16px);
+  bottom:clamp(96px,16vh,150px);
+  width:min(58vw,268px);
+}
+.evidence-card {
+  position:relative; padding:15px 15px 17px;
+  background:linear-gradient(170deg, #f2e8d0, #e8dcc0);
+  color:#1c1e2c;
+  box-shadow:0 14px 48px rgba(0,0,0,0.56);
+  clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0% calc(100% - 6px),0% 6px);
+}
+.ev-kicker {
+  display:block; color:#9a7c38;
+  font-family:"Avenir Next","Inter",system-ui,sans-serif;
+  font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+  text-align:center; margin-bottom:6px;
+}
+.ev-kicker::before,.ev-kicker::after { content:"—"; margin:0 5px; opacity:.55 }
+.ev-title {
+  display:block; font-size:13px; font-weight:700;
+  text-align:center; letter-spacing:.09em; text-transform:uppercase;
+  margin-bottom:9px; color:#16192a;
+}
+.evidence-card p { font-size:13px; line-height:1.46; margin-top:5px }
+.evidence-card em { font-style:normal; color:var(--deep-blue-lt); font-weight:600 }
+.ev-warning { color:var(--danger)!important; margin-top:7px!important }
+.ev-seal {
+  position:absolute; top:13px; right:11px;
+  width:34px; height:34px;
+  color:rgba(100,75,28,0.5); transform:rotate(14deg);
+}
+.ev-seal svg { width:100%; height:100% }
+
+/* ── INTERLUDE ───────────────────────────────────────────────── */
+.is-interlude { background:transparent }
+.is-interlude::after { display:none }
+.interlude-bg {
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(200,168,78,0.12), transparent 62%),
+    linear-gradient(160deg, #ece4d0, #f4ede0, #e8e0cc);
+}
+.interlude-body {
+  position:absolute; inset:0; z-index:2;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:16px; padding:clamp(40px,10vw,100px);
+  pointer-events:none;
+}
+.interlude-crystal {
+  display:block; width:18px; height:32px;
+  background:linear-gradient(180deg, rgba(220,185,90,0.9), rgba(160,120,40,0.6));
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  box-shadow:0 0 20px rgba(200,168,78,0.4);
+}
+.interlude-divider {
+  width:1px; height:26px;
+  background:linear-gradient(to bottom, transparent, rgba(160,120,40,0.45), transparent);
+  position:relative;
+}
+.interlude-divider::after {
+  content:""; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:5px; height:5px;
+  background:rgba(180,138,50,0.7);
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+}
+.interlude-text {
+  color:#20223a;
+  font-size:clamp(20px,3.1vw,29px);
+  line-height:1.4; text-align:center;
+}
+.interlude-text.accent { color:var(--deep-blue) }
+
+/* ── TOP BAR ─────────────────────────────────────────────────── */
+.top-bar {
+  position:absolute; top:0; left:0; right:0; z-index:20;
+  display:grid; grid-template-columns:52px 1fr 52px;
+  align-items:center; gap:8px;
+  padding:calc(env(safe-area-inset-top) + 14px) clamp(16px,4vw,36px) 14px;
+  transition:opacity 230ms ease;
+}
+.is-focus .top-bar { opacity:0; pointer-events:none }
+.icon-btn {
+  display:grid; place-items:center; width:42px; height:42px;
+  border-radius:50%;
+  border:1px solid rgba(200,168,78,0.28);
+  background:rgba(6,9,15,0.22);
+  color:rgba(240,228,196,0.84);
+  box-shadow:inset 0 0 12px rgba(200,168,78,0.08);
+}
+.icon-crystal { width:18px; height:22px }
+.icon-menu    { width:18px; height:15px }
+.episode-label { text-align:center; min-width:0; text-shadow:0 2px 16px rgba(0,0,0,0.8); }
+.ep-kicker {
+  display:block; color:var(--muted);
+  font-family:"Avenir Next","Inter",system-ui,sans-serif;
+  font-size:clamp(9px,1.1vw,12px); letter-spacing:.2em; text-transform:uppercase;
+  margin-bottom:4px;
+}
+.ep-title {
+  display:block; color:var(--parchment);
+  font-size:clamp(18px,2.8vw,30px); font-weight:400;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* ── BOTTOM BAR ──────────────────────────────────────────────── */
+.bottom-bar {
+  position:absolute; bottom:0; left:0; right:0; z-index:20;
+  display:grid; grid-template-columns:80px 1fr 80px;
+  align-items:end; gap:12px;
+  padding:14px clamp(16px,4vw,36px) calc(env(safe-area-inset-bottom) + 18px);
+  transition:opacity 230ms ease;
+}
+.is-focus .bottom-bar { opacity:0; pointer-events:none }
+.bottom-btn {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  color:rgba(220,196,148,0.72);
+  font-family:"Avenir Next","Inter",system-ui,sans-serif;
+  font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+}
+.icon-episodes { width:18px; height:18px }
+.icon-evidence { width:18px; height:22px }
+
+/* ── PROGRESS ────────────────────────────────────────────────── */
+.progress-center {
+  display:flex; flex-direction:column; align-items:center; gap:8px; min-width:0;
+}
+.progress-count {
+  color:rgba(240,228,196,0.86);
+  font-size:15px; letter-spacing:.08em;
+}
+.progress-track {
+  position:relative; width:100%; height:12px;
+  display:flex; align-items:center;
+}
+.progress-line {
+  position:absolute; top:50%; left:4px; right:4px;
+  height:1px; transform:translateY(-50%);
+  background:rgba(200,168,78,0.24);
+}
+.progress-markers {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.progress-diamond {
+  width:8px; height:8px; flex-shrink:0;
+  background:rgba(200,168,78,0.26);
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+  transition:background 260ms ease, box-shadow 260ms ease;
+}
+.progress-diamond.is-past    { background:var(--gold-dim) }
+.progress-diamond.is-current { background:var(--gold-bright); box-shadow:0 0 10px var(--gold-glow) }
+
+/* ── NAV ARROWS ──────────────────────────────────────────────── */
+.nav-arrow {
+  position:absolute; top:50%; z-index:15; transform:translateY(-50%);
+  display:grid; place-items:center;
+  width:clamp(36px,5vw,56px); height:clamp(64px,9vw,100px);
+  color:rgba(240,224,180,0.72); font-size:40px;
+  transition:opacity 230ms ease;
+}
+.nav-arrow.prev { left:0;  background:linear-gradient(90deg, rgba(6,9,15,0.14),transparent) }
+.nav-arrow.next { right:0; background:linear-gradient(270deg,rgba(6,9,15,0.14),transparent) }
+.is-focus .nav-arrow { opacity:0; pointer-events:none }
+
+/* ── EVIDENCE DRAWER ─────────────────────────────────────────── */
+.evidence-drawer { position:absolute; inset:0; z-index:30; pointer-events:none }
+.evidence-drawer[aria-hidden="false"] { pointer-events:auto }
+.drawer-scrim {
+  position:absolute; inset:0;
+  background:rgba(3,5,10,0);
+  transition:background 240ms ease;
+}
+.evidence-drawer[aria-hidden="false"] .drawer-scrim { background:rgba(3,5,10,0.6) }
+.drawer-panel {
+  position:absolute; bottom:0; left:0; right:0;
+  max-width:560px; margin-inline:auto; padding:16px;
+  background:
+    linear-gradient(135deg, rgba(200,168,78,0.07), rgba(6,9,15,0.94)),
+    rgba(6,9,15,0.9);
+  border:1px solid rgba(200,168,78,0.24); border-bottom:0;
+  box-shadow:0 -18px 54px rgba(0,0,0,0.55);
+  clip-path:polygon(16px 0%,calc(100% - 16px) 0%,100% 16px,100% 100%,0% 100%,0% 16px);
+  transform:translateY(100%); transition:transform 280ms ease;
+}
+.evidence-drawer[aria-hidden="false"] .drawer-panel { transform:translateY(0) }
+.drawer-head {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:14px; padding-bottom:12px;
+  border-bottom:1px solid rgba(200,168,78,0.16);
+}
+.drawer-title {
+  color:var(--muted);
+  font-family:"Avenir Next","Inter",system-ui,sans-serif;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+}
+.close-btn { color:var(--muted); font-size:22px; line-height:1; padding:4px 8px }
+.drawer-items { display:grid; gap:8px }
+.drawer-card {
+  display:grid; gap:4px; padding:14px;
+  border:1px solid rgba(200,168,78,0.18);
+  background:rgba(200,168,78,0.05);
+  text-align:left; transition:background 180ms ease;
+}
+.drawer-card:hover { background:rgba(200,168,78,0.1) }
+.dc-code {
+  color:var(--deep-blue-lt);
+  font-family:"Avenir Next","Inter",system-ui,sans-serif;
+  font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+}
+.dc-name  { color:var(--parchment); font-size:17px; font-weight:500 }
+.dc-desc  { color:var(--muted); font-family:"Avenir Next","Inter",system-ui,sans-serif; font-size:12px; line-height:1.4 }
+
+/* ── RESPONSIVE ──────────────────────────────────────────────── */
+@media(orientation:landscape)and(min-width:680px){
+  .narration-card{left:auto;right:clamp(24px,5vw,80px);bottom:clamp(76px,11vh,116px);width:min(42vw,440px);text-align:left}
+  .subtitle-strip{left:30%;right:30%}
+  .evidence-overlay{right:clamp(24px,5vw,80px);bottom:clamp(76px,11vh,116px)}
+  .panel-stack-two{grid-template-rows:1fr;grid-template-columns:1fr 1fr}
+}
+@media(max-width:390px){
+  .ep-title{font-size:clamp(16px,5.2vw,22px)}
+  .narration-card{font-size:clamp(14px,4.4vw,18px);padding:14px 16px 16px}
+  .bottom-bar{grid-template-columns:64px 1fr 64px}
+}
+    </style>
+  </head>
+  <body>
+    <div class="reader" id="reader">
+
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <button class="icon-btn" aria-label="Episodes">
+          <svg class="icon-crystal" viewBox="0 0 28 34" fill="none">
+            <polygon points="14,2 26,11 20,32 14,36 8,32 2,11" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <polygon points="14,8 22,14 17,29 14,33 11,29 6,14" stroke="currentColor" stroke-width="0.6" fill="none" opacity="0.5"/>
+          </svg>
+        </button>
+        <div class="episode-label">
+          <span class="ep-kicker">Prologue · Episode 1</span>
+          <span class="ep-title">The Ledger Does Not Lie</span>
+        </div>
+        <button class="icon-btn" aria-label="Menu">
+          <svg class="icon-menu" viewBox="0 0 24 20" fill="none">
+            <circle cx="3" cy="4"  r="1.4" fill="currentColor" opacity=".8"/>
+            <line x1="8" y1="4"  x2="22" y2="4"  stroke="currentColor" stroke-width="1.2"/>
+            <circle cx="3" cy="10" r="1.4" fill="currentColor" opacity=".8"/>
+            <line x1="8" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.2"/>
+            <circle cx="3" cy="16" r="1.4" fill="currentColor" opacity=".8"/>
+            <line x1="8" y1="16" x2="22" y2="16" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- SCREENS -->
+      <div class="screen-track">
+
+        <!-- S001 · Full · Your Name Is Written In Light -->
+        <div class="screen" data-index="0">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>In the year 643 post-Unmaking, your name is not written in ink.</p>
+            <p class="accent">Your name is written in light.</p>
+          </div>
+        </div>
+
+        <!-- S002 · Two-stacked · Faith and Receipts -->
+        <div class="screen" data-index="1">
+          <div class="panel-stack-two">
+            <div class="stack-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" crossorigin="anonymous" />
+            </div>
+            <div class="stack-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" crossorigin="anonymous" />
+            </div>
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>To belong to the Cyriath Empire is to exist inside the Celestial Ledger.</p>
+            <p class="accent">The Empire does not run on faith alone.</p>
+          </div>
+        </div>
+
+        <!-- S003 · Full · Cyritium Accounts -->
+        <div class="screen" data-index="2">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>Where Lunaris mines, Solaris trades, and Cyritium accounts.</p>
+          </div>
+        </div>
+
+        <!-- S004 · Full · Evidence — Felda's Note -->
+        <div class="screen" data-index="3">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="evidence-overlay text-layer">
+            <div class="evidence-card">
+              <span class="ev-kicker">Clue Acquired</span>
+              <strong class="ev-title">Felda's Note</strong>
+              <p>The clerk is asking about the <em>forty-sixth line</em> again.</p>
+              <p>It has been handled.</p>
+              <p class="ev-warning">Do not involve anyone else.</p>
+              <span class="ev-seal">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1"/>
+                  <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="0.6"/>
+                  <line x1="20" y1="4"  x2="20" y2="36" stroke="currentColor" stroke-width="0.6"/>
+                  <line x1="4"  y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="0.6"/>
+                  <line x1="8"  y1="8"  x2="32" y2="32" stroke="currentColor" stroke-width="0.4"/>
+                  <line x1="32" y1="8"  x2="8"  y2="32" stroke="currentColor" stroke-width="0.4"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- S005 · Full · Dialogue -->
+        <div class="screen" data-index="4">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="subtitle-strip text-layer">
+            <p>"You said three days."</p>
+          </div>
+        </div>
+
+        <!-- S006 · Interlude · Faith and Receipts -->
+        <div class="screen is-interlude" data-index="5">
+          <div class="interlude-bg"></div>
+          <div class="interlude-body">
+            <span class="interlude-crystal"></span>
+            <div class="interlude-divider"></div>
+            <p class="interlude-text">The Empire does not<br/>run on faith alone.</p>
+            <div class="interlude-divider"></div>
+            <p class="interlude-text accent">It runs on faith<br/>and receipts.</p>
+            <div class="interlude-divider"></div>
+            <span class="interlude-crystal"></span>
+          </div>
+        </div>
+
+        <!-- S007 · Full · The Celestial Ledger -->
+        <div class="screen" data-index="6">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>Beneath the High Spire, the Office of Holy Order maintains the longest unbroken document in the known world.</p>
+            <p class="accent">Six hundred and forty-three years. Every shipment. Every seal.</p>
+          </div>
+        </div>
+
+        <!-- S008 · Full · The Missing 46 -->
+        <div class="screen" data-index="7">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" crossorigin="anonymous" />
+          </div>
+          <div class="narration-card text-layer">
+            <span class="card-crystal"></span>
+            <p>There is only one small thing.</p>
+            <p class="accent">Forty-six crystals are missing from the ledger.</p>
+          </div>
+        </div>
+
+      </div><!-- /screen-track -->
+
+      <!-- NAV ARROWS -->
+      <button class="nav-arrow prev" id="prevBtn" aria-label="Previous">&#8249;</button>
+      <button class="nav-arrow next" id="nextBtn" aria-label="Next">&#8250;</button>
+
+      <!-- BOTTOM BAR -->
+      <footer class="bottom-bar">
+        <button class="bottom-btn" aria-label="Episodes">
+          <svg class="icon-episodes" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2"   width="3" height="3" rx=".5" fill="currentColor" opacity=".7"/>
+            <rect x="2" y="8.5" width="3" height="3" rx=".5" fill="currentColor" opacity=".7"/>
+            <rect x="2" y="15"  width="3" height="3" rx=".5" fill="currentColor" opacity=".7"/>
+            <line x1="8" y1="3.5"  x2="18" y2="3.5"  stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="8" y1="10"   x2="18" y2="10"   stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="8" y1="16.5" x2="18" y2="16.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span>Episodes</span>
+        </button>
+
+        <div class="progress-center">
+          <span class="progress-count" id="progressCount">01 / 08</span>
+          <div class="progress-track">
+            <div class="progress-line"></div>
+            <div class="progress-markers" id="progressMarkers"></div>
+          </div>
+        </div>
+
+        <button class="bottom-btn" id="evidenceBtn" aria-label="Evidence">
+          <svg class="icon-evidence" viewBox="0 0 28 34" fill="none">
+            <polygon points="14,2 26,11 20,32 14,36 8,32 2,11" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            <polygon points="14,9 21,14 17,29 14,33 11,29 7,14" stroke="currentColor" stroke-width="0.6" fill="none" opacity=".55"/>
+            <line x1="14" y1="2"  x2="14" y2="36" stroke="currentColor" stroke-width="0.4" opacity=".3"/>
+            <line x1="2"  y1="11" x2="26" y2="11" stroke="currentColor" stroke-width="0.4" opacity=".3"/>
+          </svg>
+          <span>Evidence</span>
+        </button>
+      </footer>
+
+      <!-- EVIDENCE DRAWER -->
+      <aside class="evidence-drawer" id="evidenceDrawer" aria-hidden="true">
+        <div class="drawer-scrim" id="drawerScrim"></div>
+        <div class="drawer-panel">
+          <div class="drawer-head">
+            <span class="drawer-title">Evidence</span>
+            <button class="close-btn" id="closeDrawer" aria-label="Close">×</button>
+          </div>
+          <div class="drawer-items">
+            <button class="drawer-card" data-jump="3">
+              <span class="dc-code">P00-E01-S004</span>
+              <strong class="dc-name">Felda's Note</strong>
+              <span class="dc-desc">The forty-sixth line has been handled.</span>
+            </button>
+            <button class="drawer-card" data-jump="6">
+              <span class="dc-code">P00-E01-S007</span>
+              <strong class="dc-name">The Celestial Ledger</strong>
+              <span class="dc-desc">Six hundred and forty-three years without a break.</span>
+            </button>
+            <button class="drawer-card" data-jump="7">
+              <span class="dc-code">P00-E01-S008</span>
+              <strong class="dc-name">The Missing 46</strong>
+              <span class="dc-desc">Forty-six crystals absent from the record.</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /reader -->
+
+    <script>
+const reader         = document.getElementById("reader");
+const screens        = [...document.querySelectorAll(".screen")];
+const prevBtn        = document.getElementById("prevBtn");
+const nextBtn        = document.getElementById("nextBtn");
+const countEl        = document.getElementById("progressCount");
+const markersEl      = document.getElementById("progressMarkers");
+const evidenceBtn    = document.getElementById("evidenceBtn");
+const evidenceDrawer = document.getElementById("evidenceDrawer");
+const closeDrawer    = document.getElementById("closeDrawer");
+const drawerScrim    = document.getElementById("drawerScrim");
+
+const TOTAL = screens.length;
+let current = 0;
+let touchStartX = 0, touchStartY = 0;
+let drawerOpen = false;
+
+// ── Luminance sampling ────────────────────────────────────────
+// Reads pixels from the bottom 35% of the image (where text sits).
+// Falls back gracefully if canvas is cross-origin restricted.
+function sampleTone(screen) {
+  const img = screen.querySelector(".panel-img");
+  if (!img) return; // interlude — no image, CSS handles it
+
+  function detect() {
+    const W = 64, H = 32;
+    const canvas = document.createElement("canvas");
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext("2d");
+    try {
+      const sy = img.naturalHeight * 0.65;
+      const sh = img.naturalHeight * 0.35;
+      ctx.drawImage(img, 0, sy, img.naturalWidth, sh, 0, 0, W, H);
+      const px = ctx.getImageData(0, 0, W, H).data;
+      let lum = 0;
+      for (let i = 0; i < px.length; i += 4) {
+        lum += 0.299 * px[i] + 0.587 * px[i+1] + 0.114 * px[i+2];
+      }
+      lum /= (px.length / 4);
+      screen.classList.toggle("bg-light", lum > 148);
+      screen.classList.toggle("bg-dark",  lum <= 148);
+    } catch (_) {
+      // CORS blocked — keep default (dark) treatment
+      screen.classList.add("bg-dark");
+    }
+  }
+
+  if (img.complete && img.naturalWidth) {
+    detect();
+  } else {
+    img.addEventListener("load", detect, { once: true });
+  }
+}
+
+// ── Build progress diamonds ───────────────────────────────────
+function buildMarkers() {
+  markersEl.innerHTML = "";
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement("span");
+    d.className = "progress-diamond";
+    markersEl.appendChild(d);
+  }
+}
+
+function updateMarkers() {
+  [...markersEl.children].forEach((d, i) => {
+    d.classList.toggle("is-past",    i < current);
+    d.classList.toggle("is-current", i === current);
+  });
+}
+
+// ── Navigate ──────────────────────────────────────────────────
+function goTo(index) {
+  current = ((index % TOTAL) + TOTAL) % TOTAL;
+  screens.forEach((s, i) => s.classList.toggle("is-active", i === current));
+  countEl.textContent =
+    String(current + 1).padStart(2, "0") + " / " + String(TOTAL).padStart(2, "0");
+  updateMarkers();
+  sampleTone(screens[current]);
+}
+
+// ── Drawer ────────────────────────────────────────────────────
+function setDrawer(open) {
+  drawerOpen = open;
+  evidenceDrawer.setAttribute("aria-hidden", String(!open));
+  if (open) reader.classList.remove("is-focus");
+}
+
+// ── Focus toggle ──────────────────────────────────────────────
+function onReaderClick(e) {
+  if (e.target.closest("button, .evidence-drawer")) return;
+  if (drawerOpen) { setDrawer(false); return; }
+  reader.classList.toggle("is-focus");
+}
+
+// ── Touch swipe ───────────────────────────────────────────────
+reader.addEventListener("touchstart", e => {
+  const t = e.changedTouches[0];
+  touchStartX = t.clientX; touchStartY = t.clientY;
+}, { passive: true });
+
+reader.addEventListener("touchend", e => {
+  if (drawerOpen) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+  if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy)) return;
+  goTo(current + (dx < 0 ? 1 : -1));
+}, { passive: true });
+
+// ── Scroll wheel ──────────────────────────────────────────────
+let wheelLock = false;
+reader.addEventListener("wheel", e => {
+  if (wheelLock || drawerOpen) return;
+  e.preventDefault();
+  wheelLock = true;
+  goTo(current + (e.deltaY > 0 ? 1 : -1));
+  setTimeout(() => { wheelLock = false; }, 420);
+}, { passive: false });
+
+// ── Keyboard ──────────────────────────────────────────────────
+window.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") goTo(current + 1);
+  if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   goTo(current - 1);
+  if (e.key === "Escape") { reader.classList.remove("is-focus"); setDrawer(false); }
+  if (e.key === "f" || e.key === "F") reader.classList.toggle("is-focus");
+});
+
+// ── Wire up ───────────────────────────────────────────────────
+document.querySelectorAll(".drawer-card").forEach(card => {
+  card.addEventListener("click", () => { goTo(Number(card.dataset.jump)); setDrawer(false); });
+});
+prevBtn.addEventListener("click", () => goTo(current - 1));
+nextBtn.addEventListener("click", () => goTo(current + 1));
+reader.addEventListener("click", onReaderClick);
+evidenceBtn.addEventListener("click", () => setDrawer(!drawerOpen));
+closeDrawer.addEventListener("click", () => setDrawer(false));
+drawerScrim.addEventListener("click", () => setDrawer(false));
+
+// ── Preload luminance for all screens ─────────────────────────
+screens.forEach(s => sampleTone(s));
+
+buildMarkers();
+goTo(0);
+    </script>
+  </body>
+</html>
