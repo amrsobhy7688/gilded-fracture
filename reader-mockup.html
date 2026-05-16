@@ -88,47 +88,36 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 .text-layer { position:absolute; z-index:10; transition:opacity 220ms ease; }
 .is-focus .text-layer { opacity:0; pointer-events:none }
 
-/* ── NARRATION CARD — dark images (default) ──────────────────── */
+/* ── NARRATION CAPTION — integrated panel element, always visible ─ */
 .narration-card {
-  left:max(6vw,16px); right:max(6vw,16px);
-  bottom:clamp(72px,10vh,100px);
-  padding:10px 14px 12px;
-  max-height:28vh; overflow:hidden;
-  background:
-    linear-gradient(135deg, rgba(200,168,78,0.07), rgba(6,9,15,0.68)),
-    rgba(6,9,15,0.26);
-  border:1px solid rgba(200,168,78,0.26);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  box-shadow:0 0 30px rgba(6,9,15,0.5), inset 0 0 20px rgba(200,168,78,0.04);
-  clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0% calc(100% - 10px),0% 10px);
+  position:absolute; z-index:10;
+  left:0; right:0; bottom:0;
+  padding:clamp(44px,9vh,80px) clamp(28px,6vw,72px) clamp(76px,12vh,104px);
+  background:linear-gradient(to top,
+    rgba(4,6,12,0.97) 0%,
+    rgba(4,6,12,0.84) 30%,
+    rgba(4,6,12,0.48) 58%,
+    transparent 100%
+  );
   color:var(--parchment);
-  font-size:clamp(13px,1.8vw,17px);
-  line-height:1.48; text-align:center;
-  text-shadow:0 1px 10px rgba(0,0,0,0.7);
+  font-size:clamp(14px,1.9vw,19px);
+  line-height:1.56; text-align:center;
+  text-shadow:0 1px 12px rgba(0,0,0,0.6);
 }
-.narration-card p+p { margin-top:5px }
+.narration-card p+p { margin-top:4px }
 .narration-card .accent { color:var(--gold-bright) }
 
-/* NARRATION CARD — light images */
+/* Light image override */
 .bg-light .narration-card {
-  background:linear-gradient(135deg, rgba(248,242,228,0.9), rgba(232,220,196,0.78));
-  border-color:rgba(160,128,60,0.4);
-  box-shadow:0 8px 40px rgba(0,0,0,0.28);
+  background:linear-gradient(to top,
+    rgba(236,228,208,0.97) 0%,
+    rgba(236,228,208,0.82) 32%,
+    rgba(236,228,208,0.38) 60%,
+    transparent 100%
+  );
   color:#1a1c28; text-shadow:none;
 }
 .bg-light .narration-card .accent { color:var(--deep-blue) }
-.bg-light .card-crystal {
-  background:linear-gradient(180deg, var(--deep-blue-lt), var(--deep-blue));
-  box-shadow:0 0 12px rgba(30,61,122,0.5);
-}
-
-.card-crystal {
-  display:block; width:6px; height:11px; margin:0 auto 8px;
-  background:linear-gradient(180deg, #fff8e8 0%, var(--gold) 100%);
-  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  box-shadow:0 0 10px var(--gold-glow);
-}
 
 /* ── SUBTITLE STRIP ──────────────────────────────────────────── */
 .subtitle-strip {
@@ -418,8 +407,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
           <div class="panel-full">
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" crossorigin="anonymous" />
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>In the year 643 post-Unmaking, your name is not written in ink.</p>
             <p class="accent">Your name is written in light.</p>
           </div>
@@ -435,20 +423,18 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
               <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" crossorigin="anonymous" />
             </div>
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>To belong to the Cyriath Empire is to exist inside the Celestial Ledger.</p>
-            <p class="accent">The Empire does not run on faith alone.</p>
+            <p class="accent">It runs on faith and receipts.</p>
           </div>
         </div>
 
         <!-- S003 · Full · Cyritium Accounts -->
         <div class="screen" data-index="2">
           <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" crossorigin="anonymous" />
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>Where Lunaris mines, Solaris trades, and Cyritium accounts.</p>
           </div>
         </div>
@@ -460,14 +446,13 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
               <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" crossorigin="anonymous" />
             </div>
             <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" crossorigin="anonymous" />
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" crossorigin="anonymous" />
             </div>
             <div class="wide-bot-cell">
               <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" crossorigin="anonymous" />
             </div>
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>This crystal is sanctified. This shipment is legitimate.</p>
             <p class="accent">This light is holy.</p>
           </div>
@@ -476,10 +461,9 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         <!-- S005 · Full · The Celestial Ledger -->
         <div class="screen" data-index="4">
           <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" crossorigin="anonymous" />
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" crossorigin="anonymous" />
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>Beneath the High Spire, the Office of Holy Order maintains the longest unbroken document in the known world.</p>
             <p class="accent">Six hundred and forty-three years. Every shipment. Every seal.</p>
           </div>
@@ -489,17 +473,16 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         <div class="screen" data-index="5">
           <div class="panel-wide-top-two">
             <div class="wide-top-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-            <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" crossorigin="anonymous" />
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" crossorigin="anonymous" />
             </div>
             <div class="wide-bot-cell">
               <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" crossorigin="anonymous" />
             </div>
+            <div class="wide-bot-cell">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" crossorigin="anonymous" />
+            </div>
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>Fifteen days before Ascension Day, Cyritium is the most orderly place in the world.</p>
             <p class="accent">Every bridge draped. Every sconce assigned. Every crystal logged.</p>
           </div>
@@ -509,26 +492,24 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         <div class="screen" data-index="6">
           <div class="panel-stack-two">
             <div class="stack-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" crossorigin="anonymous" />
             </div>
             <div class="stack-cell">
               <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" crossorigin="anonymous" />
             </div>
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>The city is a machine running at its annual peak.</p>
             <p class="accent">Everything is exactly where it is supposed to be.</p>
           </div>
         </div>
 
-        <!-- S008 · Full · The Missing 46 -->
+        <!-- S008 · Document Insert · The Missing 46 -->
         <div class="screen" data-index="7">
           <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" crossorigin="anonymous" />
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" crossorigin="anonymous" />
           </div>
-          <div class="narration-card text-layer">
-            <span class="card-crystal"></span>
+          <div class="narration-card">
             <p>There is only one small thing.</p>
             <p class="accent">Forty-six crystals are missing from the ledger.</p>
           </div>
