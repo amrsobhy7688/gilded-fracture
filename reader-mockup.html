@@ -62,6 +62,10 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
     rgba(4,6,12,0.36) 66%,
     transparent 100%
   );
+  transition: padding-bottom 280ms ease;
+}
+.is-focus .panel-caption {
+  padding-bottom: clamp(22px,5vh,38px);
 }
 .cap-rule {
   display:flex; align-items:center; gap:6px; margin-bottom:7px;
@@ -261,7 +265,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
           </svg>
         </button>
         <div class="episode-label">
-          <span class="ep-kicker">Prologue · Episode 1</span>
+          <span class="ep-kicker">Prologue · Episode 0</span>
           <span class="ep-title">The Ledger</span>
         </div>
         <button class="icon-btn" aria-label="Menu">
