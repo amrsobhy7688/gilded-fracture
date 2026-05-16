@@ -39,29 +39,24 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 .screen-track { position:absolute; inset:0 }
 .screen {
   position:absolute; inset:0;
+  display:flex; flex-direction:column;
   opacity:0; pointer-events:none;
   transition:opacity 340ms ease;
 }
 .screen.is-active { opacity:1; pointer-events:auto }
 
 /* ── PANEL FULL ──────────────────────────────────────────────── */
-.panel-full { position:absolute; inset:0; z-index:0 }
+.panel-full { width:100% }
 .panel-img {
-  width:100%; height:100%;
-  object-fit:cover; object-position:center top;
+  width:100%; height:auto;
   display:block;
+  max-height:75svh;
 }
 
 /* ── ART DECO PANEL CAPTION — always visible ─────────────────── */
 .panel-caption {
-  position:absolute; bottom:0; left:0; right:0; z-index:5;
-  padding:clamp(48px,10vh,88px) clamp(24px,6vw,64px) clamp(80px,13vh,112px);
-  background:linear-gradient(to top,
-    rgba(4,6,12,0.97) 0%,
-    rgba(4,6,12,0.82) 38%,
-    rgba(4,6,12,0.36) 66%,
-    transparent 100%
-  );
+  z-index:5;
+  padding:clamp(14px,2.5vh,24px) clamp(24px,6vw,64px) clamp(80px,13vh,112px);
   transition: padding-bottom 280ms ease;
 }
 .is-focus .panel-caption {
@@ -251,22 +246,17 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 .panel-half .panel-img {
   position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover; object-position:center; display:block;
+  object-fit:contain; object-position:top center; display:block;
 }
 .panel-half .panel-caption {
   position:absolute; bottom:0; left:0; right:0; z-index:5;
 }
 .panel-half.is-top .panel-caption {
-  padding:clamp(18px,4vh,32px) clamp(16px,4vw,40px) clamp(10px,2vh,16px);
-  background:linear-gradient(to top,
-    rgba(4,6,12,0.92) 0%, rgba(4,6,12,0.55) 50%, transparent 100%);
+  padding:clamp(10px,2vh,18px) clamp(16px,4vw,40px) clamp(8px,1.5vh,14px);
 }
 .panel-half.is-top .cap-text { font-size:clamp(12px,3.2vw,17px) }
 .panel-half.is-bottom .panel-caption {
-  padding:clamp(18px,4vh,32px) clamp(24px,6vw,64px) clamp(80px,13vh,112px);
-  background:linear-gradient(to top,
-    rgba(4,6,12,0.97) 0%, rgba(4,6,12,0.82) 38%,
-    rgba(4,6,12,0.36) 66%, transparent 100%);
+  padding:clamp(10px,2vh,18px) clamp(24px,6vw,64px) clamp(80px,13vh,112px);
   transition:padding-bottom 280ms ease;
 }
 .is-focus .panel-half.is-bottom .panel-caption { padding-bottom:clamp(22px,5vh,38px) }
