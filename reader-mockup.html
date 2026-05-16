@@ -3,7 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gilded Fracture — The Ledger Does Not Lie</title>
+    <title>Gilded Fracture — The Ledger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
     <style>
 /* ── TOKENS ──────────────────────────────────────────────────── */
 :root {
@@ -41,180 +44,109 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 }
 .screen.is-active { opacity:1; pointer-events:auto }
 
-/* ── PANELS ──────────────────────────────────────────────────── */
-.panel-full { position:absolute; inset:0; z-index:0 }
+/* ── PAGE GRID ───────────────────────────────────────────────── */
+.page-grid {
+  position:absolute; inset:0; z-index:0;
+  display:grid; gap:2px; background:var(--ink-mid);
+}
+.pg-cell {
+  position:relative; overflow:hidden; min-height:0; min-width:0;
+}
 .panel-img {
   width:100%; height:100%;
-  object-fit:cover; object-position:center top;
+  object-fit:cover; object-position:center center;
   display:block;
 }
-.panel-stack-two {
-  position:absolute; inset:0; z-index:0;
-  display:grid; grid-template-rows:1fr 1fr;
-  gap:2px; background:var(--ink-mid);
-}
-.stack-cell { overflow:hidden; position:relative }
-.stack-cell .panel-img { object-fit:cover; object-position:center; width:100%; height:100% }
 
-/* LAYOUT-WIDE-TOP-TWO-BOTTOM: top spanning panel + two bottom cells */
-.panel-wide-top-two {
-  position:absolute; inset:0; z-index:0;
-  display:grid;
-  grid-template-rows:54% 46%;
-  grid-template-columns:1fr 1fr;
-  gap:2px; background:var(--ink-mid);
+/* P0.1.1 — Your Name Is Written in Light */
+.page-0-1-1 {
+  grid-template-columns: 42% 58%;
+  grid-template-rows: 22% 20% 14% 44%;
+  grid-template-areas: "a b" "a c" "a d" "e e";
 }
-.wide-top-cell {
-  grid-column:1 / 3;
-  overflow:hidden; position:relative;
+.p011-a { grid-area: a }
+.p011-b { grid-area: b }
+.p011-c { grid-area: c }
+.p011-d { grid-area: d }
+.p011-e { grid-area: e }
+.p011-a .panel-img { object-position: center top }
+.p011-e .panel-img { object-position: center center }
+
+/* P0.1.2 — The City That Accounts */
+.page-0-1-2 {
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 30% 22% 20% 28%;
 }
-.wide-bot-cell { overflow:hidden; position:relative }
-.wide-top-cell .panel-img,
-.wide-bot-cell .panel-img { object-fit:cover; object-position:center; width:100%; height:100% }
+.p012-a  { grid-column: 1/13; grid-row: 1 }
+.p012-b  { grid-column: 1/5;  grid-row: 2 }
+.p012-c  { grid-column: 5/9;  grid-row: 2 }
+.p012-d  { grid-column: 9/13; grid-row: 2 }
+.p012-e  { grid-column: 1/13; grid-row: 3 }
+.p012-f1 { grid-column: 1/4;  grid-row: 4 }
+.p012-f2 { grid-column: 4/7;  grid-row: 4 }
+.p012-f3 { grid-column: 7/10; grid-row: 4 }
+.p012-f4 { grid-column: 10/13; grid-row: 4 }
 
-/* ── VIGNETTE ────────────────────────────────────────────────── */
-.screen:not(.is-interlude)::after {
-  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-  background:linear-gradient(
-    to bottom,
-    rgba(6,9,15,0.55) 0%,
-    transparent 20%,
-    transparent 54%,
-    rgba(6,9,15,0.75) 100%
-  );
+/* P0.1.3 — Faith and Receipts */
+.page-0-1-3 {
+  grid-template-columns: 44% 56%;
+  grid-template-rows: 13% 17% 26% 44%;
+  grid-template-areas: "a b" "a c" "a d" "e e";
 }
+.p013-a { grid-area: a }
+.p013-b { grid-area: b }
+.p013-c { grid-area: c }
+.p013-d { grid-area: d }
+.p013-e { grid-area: e }
+.p013-a .panel-img { object-position: center top }
 
-/* ── TEXT LAYERS ─────────────────────────────────────────────── */
-.text-layer { position:absolute; z-index:10; transition:opacity 220ms ease; }
-.is-focus .text-layer { opacity:0; pointer-events:none }
-
-/* ── NARRATION CAPTION — integrated panel element, always visible ─ */
-.narration-card {
-  position:absolute; z-index:10;
-  left:0; right:0; bottom:0;
-  padding:clamp(44px,9vh,80px) clamp(28px,6vw,72px) clamp(76px,12vh,104px);
+/* ── ART DECO PANEL CAPTION ──────────────────────────────────── */
+.panel-caption {
+  position:absolute; bottom:0; left:0; right:0; z-index:5;
+  padding:22px 10px 8px;
   background:linear-gradient(to top,
     rgba(4,6,12,0.97) 0%,
-    rgba(4,6,12,0.84) 30%,
-    rgba(4,6,12,0.48) 58%,
+    rgba(4,6,12,0.82) 44%,
     transparent 100%
   );
-  color:var(--parchment);
-  font-size:clamp(14px,1.9vw,19px);
-  line-height:1.56; text-align:center;
-  text-shadow:0 1px 12px rgba(0,0,0,0.6);
 }
-.narration-card p+p { margin-top:4px }
-.narration-card .accent { color:var(--gold-bright) }
-
-/* Light image override */
-.bg-light .narration-card {
-  background:linear-gradient(to top,
-    rgba(236,228,208,0.97) 0%,
-    rgba(236,228,208,0.82) 32%,
-    rgba(236,228,208,0.38) 60%,
-    transparent 100%
-  );
-  color:#1a1c28; text-shadow:none;
+.cap-rule {
+  display:flex; align-items:center; gap:5px; margin-bottom:5px;
 }
-.bg-light .narration-card .accent { color:var(--deep-blue) }
-
-/* ── SUBTITLE STRIP ──────────────────────────────────────────── */
-.subtitle-strip {
-  left:max(14vw,36px); right:max(14vw,36px);
-  bottom:clamp(88px,13vh,136px);
-  padding:10px 18px 12px;
-  border-top:1px solid rgba(200,168,78,0.38);
-  border-bottom:1px solid rgba(200,168,78,0.2);
-  background:rgba(6,9,15,0.62);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  color:var(--parchment);
-  font-size:clamp(16px,2.3vw,21px);
-  text-align:center;
-  text-shadow:0 1px 8px rgba(0,0,0,0.65);
+.cap-rule::before {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(to right, transparent, rgba(200,168,78,0.55));
 }
-.bg-light .subtitle-strip {
-  background:rgba(238,230,210,0.82);
-  border-color:rgba(160,128,60,0.4);
-  color:#1a1c28; text-shadow:none;
+.cap-rule::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(to left, transparent, rgba(200,168,78,0.55));
 }
-
-/* ── EVIDENCE OVERLAY ────────────────────────────────────────── */
-.evidence-overlay {
-  right:max(5vw,16px);
-  bottom:clamp(96px,16vh,150px);
-  width:min(58vw,268px);
-}
-.evidence-card {
-  position:relative; padding:15px 15px 17px;
-  background:linear-gradient(170deg, #f2e8d0, #e8dcc0);
-  color:#1c1e2c;
-  box-shadow:0 14px 48px rgba(0,0,0,0.56);
-  clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0% calc(100% - 6px),0% 6px);
-}
-.ev-kicker {
-  display:block; color:#9a7c38;
-  font-family:"Avenir Next","Inter",system-ui,sans-serif;
-  font-size:9px; letter-spacing:.22em; text-transform:uppercase;
-  text-align:center; margin-bottom:6px;
-}
-.ev-kicker::before,.ev-kicker::after { content:"—"; margin:0 5px; opacity:.55 }
-.ev-title {
-  display:block; font-size:13px; font-weight:700;
-  text-align:center; letter-spacing:.09em; text-transform:uppercase;
-  margin-bottom:9px; color:#16192a;
-}
-.evidence-card p { font-size:13px; line-height:1.46; margin-top:5px }
-.evidence-card em { font-style:normal; color:var(--deep-blue-lt); font-weight:600 }
-.ev-warning { color:var(--danger)!important; margin-top:7px!important }
-.ev-seal {
-  position:absolute; top:13px; right:11px;
-  width:34px; height:34px;
-  color:rgba(100,75,28,0.5); transform:rotate(14deg);
-}
-.ev-seal svg { width:100%; height:100% }
-
-/* ── INTERLUDE ───────────────────────────────────────────────── */
-.is-interlude { background:transparent }
-.is-interlude::after { display:none }
-.interlude-bg {
-  position:absolute; inset:0; z-index:0;
-  background:
-    radial-gradient(ellipse at 50% 46%, rgba(200,168,78,0.12), transparent 62%),
-    linear-gradient(160deg, #ece4d0, #f4ede0, #e8e0cc);
-}
-.interlude-body {
-  position:absolute; inset:0; z-index:2;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  gap:16px; padding:clamp(40px,10vw,100px);
-  pointer-events:none;
-}
-.interlude-crystal {
-  display:block; width:18px; height:32px;
-  background:linear-gradient(180deg, rgba(220,185,90,0.9), rgba(160,120,40,0.6));
-  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  box-shadow:0 0 20px rgba(200,168,78,0.4);
-}
-.interlude-divider {
-  width:1px; height:26px;
-  background:linear-gradient(to bottom, transparent, rgba(160,120,40,0.45), transparent);
-  position:relative;
-}
-.interlude-divider::after {
-  content:""; position:absolute; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  width:5px; height:5px;
-  background:rgba(180,138,50,0.7);
+.cap-diamond {
+  width:5px; height:5px; flex-shrink:0;
+  background:var(--gold);
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
 }
-.interlude-text {
-  color:#20223a;
-  font-size:clamp(20px,3.1vw,29px);
-  line-height:1.4; text-align:center;
+.cap-text {
+  font-family:'Cinzel', Georgia, serif;
+  font-size:clamp(8.5px, 2.3vw, 13px);
+  color:var(--parchment);
+  line-height:1.44; text-align:center;
+  font-weight:400; letter-spacing:.04em;
+  text-shadow:0 1px 10px rgba(0,0,0,0.9);
 }
-.interlude-text.accent { color:var(--deep-blue) }
+.panel-caption.cap-sm { padding:16px 8px 7px }
+.panel-caption.cap-sm .cap-text { font-size:clamp(7.5px, 2vw, 11px) }
+.panel-caption.cap-xs { padding:11px 6px 5px }
+.panel-caption.cap-xs .cap-text { font-size:clamp(6.5px, 1.7vw, 9px) }
+
+/* ── TOP VIGNETTE ────────────────────────────────────────────── */
+.top-vignette {
+  position:absolute; top:0; left:0; right:0; z-index:15;
+  height:160px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(4,6,12,0.75) 0%, transparent 100%);
+  transition:opacity 230ms ease;
+}
+.is-focus .top-vignette { opacity:0 }
 
 /* ── TOP BAR ─────────────────────────────────────────────────── */
 .top-bar {
@@ -235,7 +167,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 }
 .icon-crystal { width:18px; height:22px }
 .icon-menu    { width:18px; height:15px }
-.episode-label { text-align:center; min-width:0; text-shadow:0 2px 16px rgba(0,0,0,0.8); }
+.episode-label { text-align:center; min-width:0; text-shadow:0 2px 16px rgba(0,0,0,0.8) }
 .ep-kicker {
   display:block; color:var(--muted);
   font-family:"Avenir Next","Inter",system-ui,sans-serif;
@@ -357,23 +289,17 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 .dc-desc  { color:var(--muted); font-family:"Avenir Next","Inter",system-ui,sans-serif; font-size:12px; line-height:1.4 }
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
-@media(orientation:landscape)and(min-width:680px){
-  .narration-card{left:auto;right:clamp(24px,5vw,80px);bottom:clamp(60px,9vh,90px);width:min(42vw,400px);text-align:left}
-  .subtitle-strip{left:30%;right:30%}
-  .evidence-overlay{right:clamp(24px,5vw,80px);bottom:clamp(60px,9vh,90px)}
-  .panel-stack-two{grid-template-rows:1fr;grid-template-columns:1fr 1fr}
-  .panel-wide-top-two{grid-template-rows:1fr;grid-template-columns:2fr 1fr 1fr}
-  .wide-top-cell{grid-column:auto}
-}
 @media(max-width:390px){
-  .ep-title{font-size:clamp(16px,5.2vw,22px)}
-  .narration-card{font-size:clamp(12px,3.8vw,15px);padding:8px 12px 10px}
-  .bottom-bar{grid-template-columns:64px 1fr 64px}
+  .ep-title { font-size:clamp(16px,5.2vw,22px) }
+  .bottom-bar { grid-template-columns:64px 1fr 64px }
 }
     </style>
   </head>
   <body>
     <div class="reader" id="reader">
+
+      <!-- TOP VIGNETTE (contrast behind UI; hidden in focus mode) -->
+      <div class="top-vignette"></div>
 
       <!-- TOP BAR -->
       <header class="top-bar">
@@ -385,7 +311,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         </button>
         <div class="episode-label">
           <span class="ep-kicker">Prologue · Episode 1</span>
-          <span class="ep-title">The Ledger Does Not Lie</span>
+          <span class="ep-title">The Ledger</span>
         </div>
         <button class="icon-btn" aria-label="Menu">
           <svg class="icon-menu" viewBox="0 0 24 20" fill="none">
@@ -402,116 +328,195 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
       <!-- SCREENS -->
       <div class="screen-track">
 
-        <!-- S001 · Full · Your Name Is Written In Light -->
+        <!-- ─── PAGE P0.1.1 — Your Name Is Written in Light ─────── -->
         <div class="screen" data-index="0">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="narration-card">
-            <p>In the year 643 post-Unmaking, your name is not written in ink.</p>
-            <p class="accent">Your name is written in light.</p>
+          <div class="page-grid page-0-1-1">
+
+            <!-- A: TALL — glowing name in ledger light -->
+            <div class="pg-cell p011-a">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" />
+              <div class="panel-caption">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">In the year 643 post-Unmaking, your name is not written in ink.</p>
+              </div>
+            </div>
+
+            <!-- B: SCENE — citizenship record and sealing hands -->
+            <div class="pg-cell p011-b">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" />
+              <div class="panel-caption">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">Your name is written in light.</p>
+              </div>
+            </div>
+
+            <!-- C: SCENE — household breakfast under aether light -->
+            <div class="pg-cell p011-c">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">To be a citizen of the Cyriath Empire in good standing is to exist inside a ledger so vast and so precise...</p>
+              </div>
+            </div>
+
+            <!-- D: INSERT — utility ledger detail -->
+            <div class="pg-cell p011-d">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...that the Ministry of Sanctity knows, within a margin of three percent, exactly how much aether your household consumed before you finished your morning tea.</p>
+              </div>
+            </div>
+
+            <!-- E: WIDE-HERO — celestial archive pullback -->
+            <div class="pg-cell p011-e">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">The contribution of your life, your work, and your house — noble or common — to the Empire's illuminated whole is your reputation, your credit, and your proof that you belong to the light.</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- S002 · Two-stacked · Faith and Receipts -->
+        <!-- ─── PAGE P0.1.2 — The City That Accounts ────────────── -->
         <div class="screen" data-index="1">
-          <div class="panel-stack-two">
-            <div class="stack-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" crossorigin="anonymous" />
+          <div class="page-grid page-0-1-2">
+
+            <!-- A: WIDE-HERO — panorama of Cyritium -->
+            <div class="pg-cell p012-a">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" />
+              <div class="panel-caption">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">Cyritium is the capital of that ledger.</p>
+              </div>
             </div>
-            <div class="stack-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" crossorigin="anonymous" />
+
+            <!-- B: SCENE — Lunaris mining -->
+            <div class="pg-cell p012-b">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">Where Lunaris mines...</p>
+              </div>
             </div>
-          </div>
-          <div class="narration-card">
-            <p>To belong to the Cyriath Empire is to exist inside the Celestial Ledger.</p>
-            <p class="accent">It runs on faith and receipts.</p>
+
+            <!-- C: SCENE — Solaris trading -->
+            <div class="pg-cell p012-c">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...Solaris trades...</p>
+              </div>
+            </div>
+
+            <!-- D: SCENE — Cyritium accounting -->
+            <div class="pg-cell p012-d">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...and Cyritium accounts.</p>
+              </div>
+            </div>
+
+            <!-- E: SCENE — noble verification hall -->
+            <div class="pg-cell p012-e">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">The great houses of the city do not make things. They verify them. They authorize them.</p>
+              </div>
+            </div>
+
+            <!-- F1: INSERT — crystal seal -->
+            <div class="pg-cell p012-f1">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">This crystal is sanctified.</p>
+              </div>
+            </div>
+
+            <!-- F2: INSERT — shipment writ -->
+            <div class="pg-cell p012-f2">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">This shipment is legitimate.</p>
+              </div>
+            </div>
+
+            <!-- F3: INSERT — citizen standing record -->
+            <div class="pg-cell p012-f3">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">This person is in good standing.</p>
+              </div>
+            </div>
+
+            <!-- F4: INSERT — Everlight ignition permit -->
+            <div class="pg-cell p012-f4">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">This light is holy.</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- S003 · Full · Cyritium Accounts -->
+        <!-- ─── PAGE P0.1.3 — Faith and Receipts ────────────────── -->
         <div class="screen" data-index="2">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="narration-card">
-            <p>Where Lunaris mines, Solaris trades, and Cyritium accounts.</p>
-          </div>
-        </div>
+          <div class="page-grid page-0-1-3">
 
-        <!-- S004 · Wide-Top-Two · The Seal Says Holy -->
-        <div class="screen" data-index="3">
-          <div class="panel-wide-top-two">
-            <div class="wide-top-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" crossorigin="anonymous" />
+            <!-- A: TALL — Office of Holy Order vertical view -->
+            <div class="pg-cell p013-a">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_14%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">The Celestial Ledger, maintained in the Office of Holy Order beneath the High Spire...</p>
+              </div>
             </div>
-            <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-            <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-          </div>
-          <div class="narration-card">
-            <p>This crystal is sanctified. This shipment is legitimate.</p>
-            <p class="accent">This light is holy.</p>
-          </div>
-        </div>
 
-        <!-- S005 · Full · The Celestial Ledger -->
-        <div class="screen" data-index="4">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="narration-card">
-            <p>Beneath the High Spire, the Office of Holy Order maintains the longest unbroken document in the known world.</p>
-            <p class="accent">Six hundred and forty-three years. Every shipment. Every seal.</p>
-          </div>
-        </div>
+            <!-- B: INSERT — elder auditor hand -->
+            <div class="pg-cell p013-b">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...is the longest unbroken document in the known world...</p>
+              </div>
+            </div>
 
-        <!-- S006 · Wide-Top-Two · Ascension Week -->
-        <div class="screen" data-index="5">
-          <div class="panel-wide-top-two">
-            <div class="wide-top-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" crossorigin="anonymous" />
+            <!-- C: INSERT — younger auditor hand -->
+            <div class="pg-cell p013-c">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" />
+              <div class="panel-caption cap-xs">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...643 years of every crystal that has ever moved through Imperial hands...</p>
+              </div>
             </div>
-            <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-            <div class="wide-bot-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-          </div>
-          <div class="narration-card">
-            <p>Fifteen days before Ascension Day, Cyritium is the most orderly place in the world.</p>
-            <p class="accent">Every bridge draped. Every sconce assigned. Every crystal logged.</p>
-          </div>
-        </div>
 
-        <!-- S007 · Two-Stacked · The Machine At Its Peak -->
-        <div class="screen" data-index="6">
-          <div class="panel-stack-two">
-            <div class="stack-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" crossorigin="anonymous" />
+            <!-- D: SCENE — generations of ledgers -->
+            <div class="pg-cell p013-d">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" />
+              <div class="panel-caption cap-sm">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">...recorded in the precise, unhurried handwriting of a hundred generations of House Mccord auditors.</p>
+              </div>
             </div>
-            <div class="stack-cell">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" crossorigin="anonymous" />
-            </div>
-          </div>
-          <div class="narration-card">
-            <p>The city is a machine running at its annual peak.</p>
-            <p class="accent">Everything is exactly where it is supposed to be.</p>
-          </div>
-        </div>
 
-        <!-- S008 · Document Insert · The Missing 46 -->
-        <div class="screen" data-index="7">
-          <div class="panel-full">
-            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" crossorigin="anonymous" />
-          </div>
-          <div class="narration-card">
-            <p>There is only one small thing.</p>
-            <p class="accent">Forty-six crystals are missing from the ledger.</p>
+            <!-- E: WIDE-HERO — faith and receipts icon panel -->
+            <div class="pg-cell p013-e">
+              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_58%20AM.png" alt="" />
+              <div class="panel-caption">
+                <div class="cap-rule"><span class="cap-diamond"></span></div>
+                <p class="cap-text">The Empire does not run on faith alone.<br>It runs on faith and receipts.</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -536,7 +541,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         </button>
 
         <div class="progress-center">
-          <span class="progress-count" id="progressCount">01 / 08</span>
+          <span class="progress-count" id="progressCount">01 / 03</span>
           <div class="progress-track">
             <div class="progress-line"></div>
             <div class="progress-markers" id="progressMarkers"></div>
@@ -563,15 +568,15 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <button class="close-btn" id="closeDrawer" aria-label="Close">×</button>
           </div>
           <div class="drawer-items">
-            <button class="drawer-card" data-jump="4">
-              <span class="dc-code">P00-E01-S005</span>
+            <button class="drawer-card" data-jump="2">
+              <span class="dc-code">P0.1.3</span>
               <strong class="dc-name">The Celestial Ledger</strong>
-              <span class="dc-desc">Six hundred and forty-three years without a break.</span>
+              <span class="dc-desc">643 years of unbroken crystal records, maintained by House Mccord beneath the High Spire.</span>
             </button>
-            <button class="drawer-card" data-jump="7">
-              <span class="dc-code">P00-E01-S008</span>
-              <strong class="dc-name">The Missing 46</strong>
-              <span class="dc-desc">Forty-six crystals absent from the record.</span>
+            <button class="drawer-card" data-jump="2">
+              <span class="dc-code">P0.1.3-E</span>
+              <strong class="dc-name">Faith and Receipts</strong>
+              <span class="dc-desc">The Empire does not run on faith alone. It runs on faith and receipts.</span>
             </button>
           </div>
         </div>
@@ -596,45 +601,6 @@ let current = 0;
 let touchStartX = 0, touchStartY = 0;
 let drawerOpen = false;
 
-// ── Luminance sampling ────────────────────────────────────────
-// For multi-panel screens, samples the last panel-img (bottom panel).
-// Falls back gracefully if canvas is cross-origin restricted.
-function sampleTone(screen) {
-  // Use last panel-img so we sample the area under the text card (bottom panel)
-  const imgs = screen.querySelectorAll(".panel-img");
-  const img = imgs[imgs.length - 1];
-  if (!img) return;
-
-  function detect() {
-    const W = 64, H = 32;
-    const canvas = document.createElement("canvas");
-    canvas.width = W; canvas.height = H;
-    const ctx = canvas.getContext("2d");
-    try {
-      const sy = img.naturalHeight * 0.65;
-      const sh = img.naturalHeight * 0.35;
-      ctx.drawImage(img, 0, sy, img.naturalWidth, sh, 0, 0, W, H);
-      const px = ctx.getImageData(0, 0, W, H).data;
-      let lum = 0;
-      for (let i = 0; i < px.length; i += 4) {
-        lum += 0.299 * px[i] + 0.587 * px[i+1] + 0.114 * px[i+2];
-      }
-      lum /= (px.length / 4);
-      screen.classList.toggle("bg-light", lum > 148);
-      screen.classList.toggle("bg-dark",  lum <= 148);
-    } catch (_) {
-      screen.classList.add("bg-dark");
-    }
-  }
-
-  if (img.complete && img.naturalWidth) {
-    detect();
-  } else {
-    img.addEventListener("load", detect, { once: true });
-  }
-}
-
-// ── Build progress diamonds ───────────────────────────────────
 function buildMarkers() {
   markersEl.innerHTML = "";
   for (let i = 0; i < TOTAL; i++) {
@@ -651,31 +617,26 @@ function updateMarkers() {
   });
 }
 
-// ── Navigate ──────────────────────────────────────────────────
 function goTo(index) {
   current = ((index % TOTAL) + TOTAL) % TOTAL;
   screens.forEach((s, i) => s.classList.toggle("is-active", i === current));
   countEl.textContent =
     String(current + 1).padStart(2, "0") + " / " + String(TOTAL).padStart(2, "0");
   updateMarkers();
-  sampleTone(screens[current]);
 }
 
-// ── Drawer ────────────────────────────────────────────────────
 function setDrawer(open) {
   drawerOpen = open;
   evidenceDrawer.setAttribute("aria-hidden", String(!open));
   if (open) reader.classList.remove("is-focus");
 }
 
-// ── Focus toggle ──────────────────────────────────────────────
 function onReaderClick(e) {
   if (e.target.closest("button, .evidence-drawer")) return;
   if (drawerOpen) { setDrawer(false); return; }
   reader.classList.toggle("is-focus");
 }
 
-// ── Touch swipe ───────────────────────────────────────────────
 reader.addEventListener("touchstart", e => {
   const t = e.changedTouches[0];
   touchStartX = t.clientX; touchStartY = t.clientY;
@@ -690,7 +651,6 @@ reader.addEventListener("touchend", e => {
   goTo(current + (dx < 0 ? 1 : -1));
 }, { passive: true });
 
-// ── Scroll wheel ──────────────────────────────────────────────
 let wheelLock = false;
 reader.addEventListener("wheel", e => {
   if (wheelLock || drawerOpen) return;
@@ -700,7 +660,6 @@ reader.addEventListener("wheel", e => {
   setTimeout(() => { wheelLock = false; }, 420);
 }, { passive: false });
 
-// ── Keyboard ──────────────────────────────────────────────────
 window.addEventListener("keydown", e => {
   if (e.key === "ArrowRight" || e.key === "ArrowDown") goTo(current + 1);
   if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   goTo(current - 1);
@@ -708,7 +667,6 @@ window.addEventListener("keydown", e => {
   if (e.key === "f" || e.key === "F") reader.classList.toggle("is-focus");
 });
 
-// ── Wire up ───────────────────────────────────────────────────
 document.querySelectorAll(".drawer-card").forEach(card => {
   card.addEventListener("click", () => { goTo(Number(card.dataset.jump)); setDrawer(false); });
 });
@@ -718,9 +676,6 @@ reader.addEventListener("click", onReaderClick);
 evidenceBtn.addEventListener("click", () => setDrawer(!drawerOpen));
 closeDrawer.addEventListener("click", () => setDrawer(false));
 drawerScrim.addEventListener("click", () => setDrawer(false));
-
-// ── Preload luminance for all screens ─────────────────────────
-screens.forEach(s => sampleTone(s));
 
 buildMarkers();
 goTo(0);
