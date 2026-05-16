@@ -6,7 +6,7 @@
     <title>Gilded Fracture — The Ledger</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400&display=swap" rel="stylesheet">
     <style>
 /* ── TOKENS ──────────────────────────────────────────────────── */
 :root {
@@ -44,100 +44,50 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 }
 .screen.is-active { opacity:1; pointer-events:auto }
 
-/* ── PAGE GRID ───────────────────────────────────────────────── */
-.page-grid {
-  position:absolute; inset:0; z-index:0;
-  display:grid; gap:2px; background:var(--ink-mid);
-}
-.pg-cell {
-  position:relative; overflow:hidden; min-height:0; min-width:0;
-}
+/* ── PANEL FULL ──────────────────────────────────────────────── */
+.panel-full { position:absolute; inset:0; z-index:0 }
 .panel-img {
   width:100%; height:100%;
-  object-fit:cover; object-position:center center;
+  object-fit:cover; object-position:center top;
   display:block;
 }
 
-/* P0.1.1 — Your Name Is Written in Light */
-.page-0-1-1 {
-  grid-template-columns: 42% 58%;
-  grid-template-rows: 22% 20% 14% 44%;
-  grid-template-areas: "a b" "a c" "a d" "e e";
-}
-.p011-a { grid-area: a }
-.p011-b { grid-area: b }
-.p011-c { grid-area: c }
-.p011-d { grid-area: d }
-.p011-e { grid-area: e }
-.p011-a .panel-img { object-position: center top }
-.p011-e .panel-img { object-position: center center }
-
-/* P0.1.2 — The City That Accounts */
-.page-0-1-2 {
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 30% 22% 20% 28%;
-}
-.p012-a  { grid-column: 1/13; grid-row: 1 }
-.p012-b  { grid-column: 1/5;  grid-row: 2 }
-.p012-c  { grid-column: 5/9;  grid-row: 2 }
-.p012-d  { grid-column: 9/13; grid-row: 2 }
-.p012-e  { grid-column: 1/13; grid-row: 3 }
-.p012-f1 { grid-column: 1/4;  grid-row: 4 }
-.p012-f2 { grid-column: 4/7;  grid-row: 4 }
-.p012-f3 { grid-column: 7/10; grid-row: 4 }
-.p012-f4 { grid-column: 10/13; grid-row: 4 }
-
-/* P0.1.3 — Faith and Receipts */
-.page-0-1-3 {
-  grid-template-columns: 44% 56%;
-  grid-template-rows: 13% 17% 26% 44%;
-  grid-template-areas: "a b" "a c" "a d" "e e";
-}
-.p013-a { grid-area: a }
-.p013-b { grid-area: b }
-.p013-c { grid-area: c }
-.p013-d { grid-area: d }
-.p013-e { grid-area: e }
-.p013-a .panel-img { object-position: center top }
-
-/* ── ART DECO PANEL CAPTION ──────────────────────────────────── */
+/* ── ART DECO PANEL CAPTION — always visible ─────────────────── */
 .panel-caption {
   position:absolute; bottom:0; left:0; right:0; z-index:5;
-  padding:22px 10px 8px;
+  padding:clamp(48px,10vh,88px) clamp(24px,6vw,64px) clamp(80px,13vh,112px);
   background:linear-gradient(to top,
     rgba(4,6,12,0.97) 0%,
-    rgba(4,6,12,0.82) 44%,
+    rgba(4,6,12,0.82) 38%,
+    rgba(4,6,12,0.36) 66%,
     transparent 100%
   );
 }
 .cap-rule {
-  display:flex; align-items:center; gap:5px; margin-bottom:5px;
+  display:flex; align-items:center; gap:6px; margin-bottom:7px;
 }
 .cap-rule::before {
   content:''; flex:1; height:1px;
-  background:linear-gradient(to right, transparent, rgba(200,168,78,0.55));
+  background:linear-gradient(to right, transparent, rgba(200,168,78,0.6));
 }
 .cap-rule::after {
   content:''; flex:1; height:1px;
-  background:linear-gradient(to left, transparent, rgba(200,168,78,0.55));
+  background:linear-gradient(to left, transparent, rgba(200,168,78,0.6));
 }
 .cap-diamond {
-  width:5px; height:5px; flex-shrink:0;
+  width:6px; height:6px; flex-shrink:0;
   background:var(--gold);
   clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
 }
 .cap-text {
-  font-family:'Cinzel', Georgia, serif;
-  font-size:clamp(8.5px, 2.3vw, 13px);
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:clamp(15px, 4vw, 22px);
+  font-style:italic;
   color:var(--parchment);
-  line-height:1.44; text-align:center;
-  font-weight:400; letter-spacing:.04em;
-  text-shadow:0 1px 10px rgba(0,0,0,0.9);
+  line-height:1.55; text-align:center;
+  font-weight:400; letter-spacing:.02em;
+  text-shadow:0 1px 14px rgba(0,0,0,0.95);
 }
-.panel-caption.cap-sm { padding:16px 8px 7px }
-.panel-caption.cap-sm .cap-text { font-size:clamp(7.5px, 2vw, 11px) }
-.panel-caption.cap-xs { padding:11px 6px 5px }
-.panel-caption.cap-xs .cap-text { font-size:clamp(6.5px, 1.7vw, 9px) }
 
 /* ── TOP VIGNETTE ────────────────────────────────────────────── */
 .top-vignette {
@@ -292,13 +242,14 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 @media(max-width:390px){
   .ep-title { font-size:clamp(16px,5.2vw,22px) }
   .bottom-bar { grid-template-columns:64px 1fr 64px }
+  .cap-text { font-size:clamp(12px,3.6vw,16px) }
 }
     </style>
   </head>
   <body>
     <div class="reader" id="reader">
 
-      <!-- TOP VIGNETTE (contrast behind UI; hidden in focus mode) -->
+      <!-- TOP VIGNETTE -->
       <div class="top-vignette"></div>
 
       <!-- TOP BAR -->
@@ -328,195 +279,218 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
       <!-- SCREENS -->
       <div class="screen-track">
 
-        <!-- ─── PAGE P0.1.1 — Your Name Is Written in Light ─────── -->
-        <div class="screen" data-index="0">
-          <div class="page-grid page-0-1-1">
+        <!-- ── PAGE P0.1.1 · Your Name Is Written in Light ──────── -->
 
-            <!-- A: TALL — glowing name in ledger light -->
-            <div class="pg-cell p011-a">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" />
-              <div class="panel-caption">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">In the year 643 post-Unmaking, your name is not written in ink.</p>
-              </div>
-            </div>
-
-            <!-- B: SCENE — citizenship record and sealing hands -->
-            <div class="pg-cell p011-b">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" />
-              <div class="panel-caption">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">Your name is written in light.</p>
-              </div>
-            </div>
-
-            <!-- C: SCENE — household breakfast under aether light -->
-            <div class="pg-cell p011-c">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">To be a citizen of the Cyriath Empire in good standing is to exist inside a ledger so vast and so precise...</p>
-              </div>
-            </div>
-
-            <!-- D: INSERT — utility ledger detail -->
-            <div class="pg-cell p011-d">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...that the Ministry of Sanctity knows, within a margin of three percent, exactly how much aether your household consumed before you finished your morning tea.</p>
-              </div>
-            </div>
-
-            <!-- E: WIDE-HERO — celestial archive pullback -->
-            <div class="pg-cell p011-e">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">The contribution of your life, your work, and your house — noble or common — to the Empire's illuminated whole is your reputation, your credit, and your proof that you belong to the light.</p>
-              </div>
-            </div>
-
+        <!-- P0.1.1-A · TALL · glowing name in ledger light -->
+        <div class="screen" data-panel="P0.1.1-A" data-index="0">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">In the year 643 post-Unmaking, your name is not written in ink.</p>
           </div>
         </div>
 
-        <!-- ─── PAGE P0.1.2 — The City That Accounts ────────────── -->
-        <div class="screen" data-index="1">
-          <div class="page-grid page-0-1-2">
-
-            <!-- A: WIDE-HERO — panorama of Cyritium -->
-            <div class="pg-cell p012-a">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" />
-              <div class="panel-caption">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">Cyritium is the capital of that ledger.</p>
-              </div>
-            </div>
-
-            <!-- B: SCENE — Lunaris mining -->
-            <div class="pg-cell p012-b">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">Where Lunaris mines...</p>
-              </div>
-            </div>
-
-            <!-- C: SCENE — Solaris trading -->
-            <div class="pg-cell p012-c">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...Solaris trades...</p>
-              </div>
-            </div>
-
-            <!-- D: SCENE — Cyritium accounting -->
-            <div class="pg-cell p012-d">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...and Cyritium accounts.</p>
-              </div>
-            </div>
-
-            <!-- E: SCENE — noble verification hall -->
-            <div class="pg-cell p012-e">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">The great houses of the city do not make things. They verify them. They authorize them.</p>
-              </div>
-            </div>
-
-            <!-- F1: INSERT — crystal seal -->
-            <div class="pg-cell p012-f1">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">This crystal is sanctified.</p>
-              </div>
-            </div>
-
-            <!-- F2: INSERT — shipment writ -->
-            <div class="pg-cell p012-f2">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">This shipment is legitimate.</p>
-              </div>
-            </div>
-
-            <!-- F3: INSERT — citizen standing record -->
-            <div class="pg-cell p012-f3">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">This person is in good standing.</p>
-              </div>
-            </div>
-
-            <!-- F4: INSERT — Everlight ignition permit -->
-            <div class="pg-cell p012-f4">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">This light is holy.</p>
-              </div>
-            </div>
-
+        <!-- P0.1.1-B · SCENE · citizenship record and sealing hands -->
+        <div class="screen" data-panel="P0.1.1-B" data-index="1">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">Your name is written in light.</p>
           </div>
         </div>
 
-        <!-- ─── PAGE P0.1.3 — Faith and Receipts ────────────────── -->
-        <div class="screen" data-index="2">
-          <div class="page-grid page-0-1-3">
+        <!-- P0.1.1-C · SCENE · household breakfast under aether light -->
+        <div class="screen" data-panel="P0.1.1-C" data-index="2">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">To be a citizen of the Cyriath Empire in good standing is to exist inside a ledger so vast and so precise...</p>
+          </div>
+        </div>
 
-            <!-- A: TALL — Office of Holy Order vertical view -->
-            <div class="pg-cell p013-a">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_14%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">The Celestial Ledger, maintained in the Office of Holy Order beneath the High Spire...</p>
-              </div>
-            </div>
+        <!-- P0.1.1-D · INSERT · utility ledger detail -->
+        <div class="screen" data-panel="P0.1.1-D" data-index="3">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(4).png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...that the Ministry of Sanctity knows, within a margin of three percent, exactly how much aether your household consumed before you finished your morning tea.</p>
+          </div>
+        </div>
 
-            <!-- B: INSERT — elder auditor hand -->
-            <div class="pg-cell p013-b">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...is the longest unbroken document in the known world...</p>
-              </div>
-            </div>
+        <!-- P0.1.1-E · WIDE-HERO · celestial archive pullback -->
+        <div class="screen" data-panel="P0.1.1-E" data-index="4">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">The contribution of your life, your work, and your house — noble or common — to the Empire's illuminated whole is your reputation, your credit, and your proof that you belong to the light.</p>
+          </div>
+        </div>
 
-            <!-- C: INSERT — younger auditor hand -->
-            <div class="pg-cell p013-c">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" />
-              <div class="panel-caption cap-xs">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...643 years of every crystal that has ever moved through Imperial hands...</p>
-              </div>
-            </div>
+        <!-- ── PAGE P0.1.2 · The City That Accounts ─────────────── -->
 
-            <!-- D: SCENE — generations of ledgers -->
-            <div class="pg-cell p013-d">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" />
-              <div class="panel-caption cap-sm">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">...recorded in the precise, unhurried handwriting of a hundred generations of House Mccord auditors.</p>
-              </div>
-            </div>
+        <!-- P0.1.2-A · WIDE-HERO · panorama of Cyritium -->
+        <div class="screen" data-panel="P0.1.2-A" data-index="5">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">Cyritium is the capital of that ledger.</p>
+          </div>
+        </div>
 
-            <!-- E: WIDE-HERO — faith and receipts icon panel -->
-            <div class="pg-cell p013-e">
-              <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_58%20AM.png" alt="" />
-              <div class="panel-caption">
-                <div class="cap-rule"><span class="cap-diamond"></span></div>
-                <p class="cap-text">The Empire does not run on faith alone.<br>It runs on faith and receipts.</p>
-              </div>
-            </div>
+        <!-- P0.1.2-B · SCENE · Lunaris mining -->
+        <div class="screen" data-panel="P0.1.2-B" data-index="6">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">Where Lunaris mines...</p>
+          </div>
+        </div>
 
+        <!-- P0.1.2-C · SCENE · Solaris trading -->
+        <div class="screen" data-panel="P0.1.2-C" data-index="7">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...Solaris trades...</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-D · SCENE · Cyritium accounting -->
+        <div class="screen" data-panel="P0.1.2-D" data-index="8">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...and Cyritium accounts.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-E · SCENE · noble verification hall -->
+        <div class="screen" data-panel="P0.1.2-E" data-index="9">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">The great houses of the city do not make things. They verify them. They authorize them.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-F1 · INSERT · crystal seal -->
+        <div class="screen" data-panel="P0.1.2-F1" data-index="10">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">This crystal is sanctified.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-F2 · INSERT · shipment writ -->
+        <div class="screen" data-panel="P0.1.2-F2" data-index="11">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">This shipment is legitimate.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-F3 · INSERT · citizen standing record -->
+        <div class="screen" data-panel="P0.1.2-F3" data-index="12">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">This person is in good standing.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.2-F4 · INSERT · Everlight ignition permit -->
+        <div class="screen" data-panel="P0.1.2-F4" data-index="13">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">This light is holy.</p>
+          </div>
+        </div>
+
+        <!-- ── PAGE P0.1.3 · Faith and Receipts ──────────────────── -->
+
+        <!-- P0.1.3-A · TALL · Office of Holy Order vertical view -->
+        <div class="screen" data-panel="P0.1.3-A" data-index="14">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">The Celestial Ledger, maintained in the Office of Holy Order beneath the High Spire...</p>
+          </div>
+        </div>
+
+        <!-- P0.1.3-B · INSERT · elder auditor hand -->
+        <div class="screen" data-panel="P0.1.3-B" data-index="15">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_14%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...is the longest unbroken document in the known world...</p>
+          </div>
+        </div>
+
+        <!-- P0.1.3-C · INSERT · younger auditor hand -->
+        <div class="screen" data-panel="P0.1.3-C" data-index="16">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...643 years of every crystal that has ever moved through Imperial hands...</p>
+          </div>
+        </div>
+
+        <!-- P0.1.3-D · SCENE · generations of ledgers -->
+        <div class="screen" data-panel="P0.1.3-D" data-index="17">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_58%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">...recorded in the precise, unhurried handwriting of a hundred generations of House Mccord auditors.</p>
+          </div>
+        </div>
+
+        <!-- P0.1.3-E · WIDE-HERO · faith and receipts icon panel -->
+        <div class="screen" data-panel="P0.1.3-E" data-index="18">
+          <div class="panel-full">
+            <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" />
+          </div>
+          <div class="panel-caption">
+            <div class="cap-rule"><span class="cap-diamond"></span></div>
+            <p class="cap-text">The Empire does not run on faith alone.<br>It runs on faith and receipts.</p>
           </div>
         </div>
 
@@ -541,7 +515,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
         </button>
 
         <div class="progress-center">
-          <span class="progress-count" id="progressCount">01 / 03</span>
+          <span class="progress-count" id="progressCount">01 / 19</span>
           <div class="progress-track">
             <div class="progress-line"></div>
             <div class="progress-markers" id="progressMarkers"></div>
@@ -568,15 +542,15 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <button class="close-btn" id="closeDrawer" aria-label="Close">×</button>
           </div>
           <div class="drawer-items">
-            <button class="drawer-card" data-jump="2">
-              <span class="dc-code">P0.1.3</span>
+            <button class="drawer-card" data-jump="14">
+              <span class="dc-code">P0.1.3-A</span>
               <strong class="dc-name">The Celestial Ledger</strong>
-              <span class="dc-desc">643 years of unbroken crystal records, maintained by House Mccord beneath the High Spire.</span>
+              <span class="dc-desc">643 years of unbroken crystal records beneath the High Spire.</span>
             </button>
-            <button class="drawer-card" data-jump="2">
+            <button class="drawer-card" data-jump="18">
               <span class="dc-code">P0.1.3-E</span>
               <strong class="dc-name">Faith and Receipts</strong>
-              <span class="dc-desc">The Empire does not run on faith alone. It runs on faith and receipts.</span>
+              <span class="dc-desc">The Empire does not run on faith alone.</span>
             </button>
           </div>
         </div>
