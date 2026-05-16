@@ -1,8 +1,6 @@
 # Gilded Fracture - Webtoon
 
-This folder is the local working home for turning the D&D campaign **Gilded Fracture** into a swipe-based webtoon reader.
-
-The big idea is to keep the creative system powerful but light: one master planning file, one source archive, episode folders for chosen artwork, and a reader mockup that can grow into the real interface.
+A swipe-based webtoon reader adapting the **Gilded Fracture** D&D campaign into a cinematic, phone-first reading experience.
 
 ## Project Goal
 
@@ -29,25 +27,58 @@ The Missing 46 is the campaign-level mystery, not the title of Arc 1.
 ## Main Files
 
 - `Gilded Fracture - Webtoon Master.md`
-  - The source of truth for the adaptation plan, style rules, prompt structure, canon locks, layout rules, and prologue script.
+  — Source of truth for the adaptation plan, style rules, prompt structure, canon locks, layout rules, and prologue script.
 
 - `reader-mockup.html`
-  - The current reader interface mockup. It opens directly in the browser; no local server is needed.
+  — The complete self-contained reader. All CSS and JS are inlined. Open directly in a browser or serve via the local preview server. This is what gets deployed.
 
-- `reader-mockup.css`
-  - Visual styling and responsive layout behavior for the reader mockup.
+- `vercel.json`
+  — Deployment config. Rewrites `/` to `reader-mockup.html` and serves the directory as static files.
 
-- `reader-mockup.js`
-  - Reader interactions: screen navigation, progress, focus mode, and evidence drawer behavior.
+- `reader-mockup.css` / `reader-mockup.js`
+  — Legacy separate files, no longer linked. The reader is self-contained in `reader-mockup.html`.
 
 - `source/`
-  - Local archive of exported campaign/session material and Drive document shortcuts.
+  — Local archive of exported campaign/session material and Drive document shortcuts.
 
 - `assets/`
-  - Mockup images, copied style references, and future character/location/prop references.
+  — Mockup images, style references, and future character/location/prop references.
 
 - `episodes/`
-  - Future home for chosen final panel images, organized by arc/prologue and episode.
+  — Future home for chosen final panel images, organized by arc and episode.
+
+## Current Reader State
+
+The reader (`reader-mockup.html`) is fully interactive with 20 screens of real prologue content for `P00-E01`:
+
+- Splash screen
+- 19 captioned panel screens covering the full prologue narration
+- Swipe / arrow key / button navigation
+- Focus mode (tap artwork to hide UI)
+- Evidence drawer with artifact close-ups
+- Episode jump menu
+- Progress indicator
+
+Panel images are currently sourced from `assets/reference/drive-style/` (AI-generated placeholders). Once final artwork is approved, images move to `episodes/p00/e01/panels/` and the reader is updated to point there.
+
+## Deployment Pipeline
+
+### Local Preview
+
+A Node.js inline server is configured in `.claude/launch.json` and runs on port **8765**. It handles URL-encoded filenames (needed for the current image paths with spaces).
+
+To start it from Claude Code: use the `reader` launch configuration. Then open `http://localhost:8765` in a browser.
+
+Alternatively, open `reader-mockup.html` directly in the browser — it works without a server for most purposes.
+
+### Publishing (GitHub → Vercel)
+
+1. Commit changes to the local repo.
+2. Push to GitHub (`main` branch).
+3. Vercel picks up the push automatically and deploys within ~30 seconds.
+4. `vercel.json` routes `/` → `reader-mockup.html` and serves everything else as static files.
+
+No build step. No framework. Vercel treats the project root as the output directory.
 
 ## Current Folder Map
 
@@ -56,17 +87,14 @@ assets/
   characters/
   locations/
   mockup/
-    mock-ledger.png
-    mock-portrait.png
-    mock-quill.png
   props/
   reference/
-    drive-style/
+    drive-style/       ← current placeholder panel images (19 PNGs)
 
 episodes/
   p00/
     e01/
-      panels/
+      panels/          ← empty; will hold final chosen artwork
   a01/
     e01/
       panels/
@@ -80,37 +108,7 @@ source/
   google-doc-shortcuts/
 ```
 
-## Source Archive Status
-
-The main session notes were exported locally:
-
-```text
-source/session-notes/gilded-fracture-session-notes.txt
-```
-
-The webtoon planning docs that could be exported cleanly are saved here:
-
-```text
-source/webtoon-drive/
-```
-
-Related Google Docs that required authenticated access for direct export are preserved as `.gdoc` shortcuts here:
-
-```text
-source/google-doc-shortcuts/
-```
-
-The Drive style reference images were copied locally:
-
-```text
-assets/reference/drive-style/
-```
-
-There are 19 PNG style reference images in that folder.
-
 ## ID and File Naming Rules
-
-Every panel gets one stable ID and one matching filename.
 
 Panel ID format:
 
@@ -128,7 +126,6 @@ Filename format:
 
 ```text
 p00_e01_s001_p01.png
-a01_e01_s001_p01.png
 ```
 
 Example mapping:
@@ -138,27 +135,23 @@ Panel ID: P00-E01-S001-P01
 File: episodes/p00/e01/panels/p00_e01_s001_p01.png
 ```
 
-There is no separate `selected`, `generated`, `v1`, or `final` folder by default. The generation and pre-filtering happen outside the project. Only the chosen panel image is placed into the episode `panels/` folder.
+Only the chosen final image for each panel goes into the `panels/` folder. Generation and pre-filtering happen outside the project.
 
 ## Creative Direction
 
-The visual direction is inspired by Arcane-style cinematic fantasy animation:
+Arcane-style cinematic fantasy:
 
-- painterly textured brushwork
-- sculpted lighting
-- elegant exaggerated realism
-- warm gold light contrasted with cool blue crystal glow
-- sacred bureaucracy, ledgers, seals, marble, gold inlay, ritual geometry, crystal instruments
+- painterly textured brushwork, sculpted lighting
+- warm gold contrasted with cool blue crystal glow
+- sacred bureaucracy: ledgers, seals, marble, gold inlay, ritual geometry
 - dramatic compositions with clear focal points
 - no baked-in speech bubbles or random generated text inside images
 
-The reader UI should feel like part of the world: art deco geometry, thin gold/crystal lines, quiet luxury, luminous details, and minimal obstruction of the artwork.
+The reader UI matches the world: thin gold lines, quiet luxury, minimal obstruction of the artwork.
 
 ## Prompt Workflow
 
-Prompts live in the master file, not inside each episode folder.
-
-Each panel prompt should include:
+Prompts live in the master file, not inside episode folders. Each panel prompt includes:
 
 ```text
 Panel ID:
@@ -176,105 +169,52 @@ Prompt:
 Negative prompt:
 ```
 
-Important rule: generate each image for the layout slot it will occupy. A portrait full-screen panel, a stacked horizontal panel, and a desktop companion panel should not all use the same generic composition prompt.
+Generate each image for the layout slot it will occupy. Portrait full-screen panels need different composition framing than landscape or companion panels.
 
 ## Reader Design Decisions
 
-The reader is a swipe-style interface, not an endless vertical scroll.
+Swipe-style interface, not endless scroll.
 
-Default reading mode:
+Default mode: artwork visible, captions visible, navigation visible, evidence accessible.
 
-- artwork is visible
-- captions/text are visible by default
-- navigation and episode status are visible
-- evidence can be opened from the reader
+Focus mode: tap artwork to hide all UI; tap again to restore.
 
-Focus mode:
-
-- tapping the artwork hides the UI and text
-- this lets the reader inspect the artwork without overlays
-- tapping again restores the reading UI
-
-Layout strategy:
-
-- design for three deliberate target states: phone, tablet, and HD desktop
-- at those target states, artwork should not be cropped
-- in-between sizes can adapt or crop slightly if needed
-- thin bezels separate images so multi-panel layouts do not become muddy
-- avoid fake device frames or heavy card frames around the artwork
+Layout targets: phone (primary), tablet, HD desktop. At those breakpoints artwork should not be cropped. In-between sizes may adapt or crop slightly.
 
 ## Implemented So Far
 
-- Local source archive created.
-- Main session notes saved locally.
-- Drive style reference images copied locally.
-- Root folder structure created for assets and episodes.
-- Master adaptation document created and expanded.
-- Prologue/session 0 distinction corrected to `P00`.
-- Arc 1 defined as Session 1.
-- Panel ID and filename convention established.
-- Prompt storage decision made: prompts live in the master file.
-- Reader mockup created as an actual interactive interface.
-- Reader supports multiple screens, navigation, progress, evidence drawer, captions, and focus mode.
-- Reader layout has been adjusted toward phone/tablet/desktop target states with thin image bezels and no visible device frame.
+- Local source archive and folder structure.
+- Master adaptation document with prologue script and prompt structure.
+- Interactive reader with 20 screens of `P00-E01` prologue content.
+- Navigation, progress indicator, focus mode, evidence drawer, episode jump menu.
+- GitHub repo with Vercel auto-deploy on push to `main`.
+- Local Node.js preview server configured in `.claude/launch.json`.
 
 ## Not Implemented Yet
 
-- Production data manifest for episodes and panels.
-- Real generated panel artwork for `P00-E01`.
-- Character lock sheets.
-- Location lock sheets.
-- Prop/evidence lock sheets.
-- Final reader connected to real episode data.
+- Final generated artwork for `P00-E01` (placeholder images currently in use).
+- Reader connected to a data manifest instead of hard-coded screens.
+- Character, location, and evidence lock sheets.
 - Episode selection dashboard.
 - Save/read progress persistence.
 - Full accessibility pass.
-- Deployment or hosting.
 
 ## Recommended Next Steps
 
-1. Finalize the reader mockup behavior for phone, tablet, and HD desktop.
-2. Turn the prologue script in the master file into a clean panel manifest.
-3. Generate the first batch of prologue artwork externally.
-4. Put only chosen images into:
-
-```text
-episodes/p00/e01/panels/
-```
-
-5. Create character, location, and evidence lock sheets from the chosen prologue visuals.
-6. Connect the reader to a simple data manifest instead of hard-coded mockup screens.
-7. Build the episode dashboard after the reading experience feels right.
-8. Repeat the intake process for Session 1 and convert it into Arc 1.
+1. Approve and finalize placeholder images or generate real `P00-E01` artwork in portrait proportions.
+2. Move chosen images to `episodes/p00/e01/panels/` and update image paths in the reader.
+3. Create character, location, and evidence lock sheets from the chosen prologue visuals.
+4. Connect the reader to a simple data manifest instead of hard-coded screens.
+5. Build the episode dashboard after the reading experience is stable.
+6. Repeat the intake process for Session 1 to create Arc 1.
 
 ## Working Process for Future Sessions
 
-When new D&D material arrives:
-
-1. Update the source session notes.
+1. Update source session notes.
 2. Add a short intake entry to the master file.
-3. Decide what becomes canon, what becomes a scene, and what stays archive-only.
-4. Convert the session into one arc.
-5. Divide the arc into episodes.
-6. Break episodes into screens and panels.
-7. Write prompts using locked style and continuity.
-8. Generate panels externally.
-9. Place chosen panels in the matching episode folder.
-10. Update the reader manifest.
-
-This keeps the project expandable without forcing every new session to create a mess of files.
-
-## Opening the Mockup
-
-Open this file in the browser:
-
-```text
-reader-mockup.html
-```
-
-Current local path:
-
-```text
-/Users/amrsobhy7688/Documents/Gilded Fracture - Webtoon/reader-mockup.html
-```
-
+3. Decide what becomes canon, what becomes a scene, what stays archive-only.
+4. Convert the session into one arc, divide into episodes, break into screens and panels.
+5. Write prompts using locked style and continuity.
+6. Generate panels externally and place chosen images in the episode `panels/` folder.
+7. Update the reader (or data manifest when that exists).
+8. Commit and push — Vercel deploys automatically.

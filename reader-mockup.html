@@ -66,42 +66,6 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
 }
 .is-focus .panel-caption { padding-bottom:clamp(22px,5vh,38px) }
 
-/* Double-rule header — heavy bar + hairline below it */
-.panel-caption::before {
-  content:'';
-  display:block;
-  margin-bottom:8px;
-  height:6px;
-  background:
-    linear-gradient(to right,
-      transparent 0%, rgba(200,168,78,0.55) 5%,
-      rgba(200,168,78,0.55) 95%, transparent 100%)
-    0 0 / 100% 1.5px no-repeat,
-    linear-gradient(to right,
-      transparent 0%, rgba(200,168,78,0.25) 5%,
-      rgba(200,168,78,0.25) 95%, transparent 100%)
-    0 5.5px / 100% 0.5px no-repeat;
-}
-
-/* Center ornament row */
-.cap-rule {
-  display:flex; align-items:center; gap:12px; margin-bottom:12px;
-}
-.cap-rule::before {
-  content:''; flex:1; height:1px;
-  background:linear-gradient(to right, transparent 0%, rgba(200,168,78,0.72) 10%);
-}
-.cap-rule::after {
-  content:''; flex:1; height:1px;
-  background:linear-gradient(to left, transparent 0%, rgba(200,168,78,0.72) 10%);
-}
-.cap-diamond {
-  width:8px; height:8px; flex-shrink:0;
-  background:var(--gold-bright);
-  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);
-  box-shadow:0 0 8px rgba(223,192,112,0.55);
-}
-
 .cap-text {
   font-family:'Cormorant Garamond', Georgia, serif;
   font-size:clamp(15px, 4vw, 22px);
@@ -112,23 +76,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
   text-shadow:0 1px 14px rgba(0,0,0,0.95);
 }
 
-/* Double-rule footer — hairline above + heavy bar below (mirror) */
-.panel-caption::after {
-  content:'';
-  display:block;
-  margin-top:10px;
-  height:6px;
-  background:
-    linear-gradient(to right,
-      transparent 0%, rgba(200,168,78,0.25) 5%,
-      rgba(200,168,78,0.25) 95%, transparent 100%)
-    0 0 / 100% 0.5px no-repeat,
-    linear-gradient(to right,
-      transparent 0%, rgba(200,168,78,0.55) 5%,
-      rgba(200,168,78,0.55) 95%, transparent 100%)
-    0 5.5px / 100% 1.5px no-repeat;
-}
-
+/* ── ART DECO FRAME — bottom (fine inner → bold outer, corner rises) ── */
 /* ── TOP VIGNETTE ────────────────────────────────────────────── */
 .top-vignette {
   position:absolute; top:0; left:0; right:0; z-index:15;
@@ -327,8 +275,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">In the year 643 post-Unmaking, your name is not written in ink.</p>
+<p class="cap-text">In the year 643 post-Unmaking, your name is not written in ink.</p>
           </div>
         </div>
 
@@ -338,8 +285,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(1).png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">Your name is written in light.</p>
+<p class="cap-text">Your name is written in light.</p>
           </div>
         </div>
 
@@ -349,8 +295,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(2).png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">To be a citizen of the Cyriath Empire in good standing is to exist inside a ledger so vast and so precise...</p>
+<p class="cap-text">To be a citizen of the Cyriath Empire in good standing is to exist inside a ledger so vast and so precise...</p>
           </div>
         </div>
 
@@ -360,8 +305,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(3).png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...that the Ministry of Sanctity knows, within a margin of three percent, exactly how much aether your household consumed before you finished your morning tea.</p>
+<p class="cap-text">...that the Ministry of Sanctity knows, within a margin of three percent, exactly how much aether your household consumed before you finished your morning tea.</p>
           </div>
         </div>
 
@@ -378,8 +322,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_07_13%20AM%20(5).png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">The contribution of your life, your work, and your house — noble or common — to the Empire's illuminated whole is your reputation, your credit, and your proof that you belong to the light.</p>
+<p class="cap-text">The contribution of your life, your work, and your house — noble or common — to the Empire's illuminated whole is your reputation, your credit, and your proof that you belong to the light.</p>
           </div>
         </div>
 
@@ -391,8 +334,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_15%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">Cyritium is the capital of that ledger.</p>
+<p class="cap-text">Cyritium is the capital of that ledger.</p>
           </div>
         </div>
 
@@ -402,8 +344,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_57%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">Where Lunaris mines...</p>
+<p class="cap-text">Where Lunaris mines...</p>
           </div>
         </div>
 
@@ -413,8 +354,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_09%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...Solaris trades...</p>
+<p class="cap-text">...Solaris trades...</p>
           </div>
         </div>
 
@@ -424,8 +364,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_52%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...and Cyritium accounts.</p>
+<p class="cap-text">...and Cyritium accounts.</p>
           </div>
         </div>
 
@@ -435,8 +374,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_33%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">The great houses of the city do not make things. They verify them. They authorize them.</p>
+<p class="cap-text">The great houses of the city do not make things. They verify them. They authorize them.</p>
           </div>
         </div>
 
@@ -446,8 +384,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_45%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">This crystal is sanctified.</p>
+<p class="cap-text">This crystal is sanctified.</p>
           </div>
         </div>
 
@@ -457,8 +394,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_39%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">This shipment is legitimate.</p>
+<p class="cap-text">This shipment is legitimate.</p>
           </div>
         </div>
 
@@ -468,8 +404,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_20%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">This person is in good standing.</p>
+<p class="cap-text">This person is in good standing.</p>
           </div>
         </div>
 
@@ -479,8 +414,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_08_25%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">This light is holy.</p>
+<p class="cap-text">This light is holy.</p>
           </div>
         </div>
 
@@ -492,8 +426,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_51%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">The Celestial Ledger, maintained in the Office of Holy Order beneath the High Spire...</p>
+<p class="cap-text">The Celestial Ledger, maintained in the Office of Holy Order beneath the High Spire...</p>
           </div>
         </div>
 
@@ -503,8 +436,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_14%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...is the longest unbroken document in the known world...</p>
+<p class="cap-text">...is the longest unbroken document in the known world...</p>
           </div>
         </div>
 
@@ -514,8 +446,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_43%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...643 years of every crystal that has ever moved through Imperial hands...</p>
+<p class="cap-text">...643 years of every crystal that has ever moved through Imperial hands...</p>
           </div>
         </div>
 
@@ -525,8 +456,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_58%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">...recorded in the precise, unhurried handwriting of a hundred generations of House Mccord auditors.</p>
+<p class="cap-text">...recorded in the precise, unhurried handwriting of a hundred generations of House Mccord auditors.</p>
           </div>
         </div>
 
@@ -536,8 +466,7 @@ button { border:0; background:transparent; color:inherit; font:inherit; cursor:p
             <img class="panel-img" src="assets/reference/drive-style/ChatGPT%20Image%20May%2016%2C%202026%2C%2012_09_39%20AM.png" alt="" />
           </div>
           <div class="panel-caption">
-            <div class="cap-rule"><span class="cap-diamond"></span></div>
-            <p class="cap-text">The Empire does not run on faith alone.<br>It runs on faith and receipts.</p>
+<p class="cap-text">The Empire does not run on faith alone.<br>It runs on faith and receipts.</p>
           </div>
         </div>
 
